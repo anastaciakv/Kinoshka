@@ -100,8 +100,8 @@ public class MovieListPresenterTest {
     public void when_itemClicked_then_navigateToMovieDetails() throws Exception {
         List<Movie> movieList = getPopularMovies().movies;
         presenter.movies = movieList;
-        presenter.onMovieClicked(2);
-        verify(view).navigateToMovieDetails(movieList.get(2));
+        presenter.onMovieClicked(2, v);
+        verify(view).navigateToMovieDetails(movieList.get(2), v);
     }
 
 

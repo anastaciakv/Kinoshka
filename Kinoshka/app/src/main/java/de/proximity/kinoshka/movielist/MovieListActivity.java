@@ -1,5 +1,6 @@
 package de.proximity.kinoshka.movielist;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 import de.proximity.kinoshka.MyApplication;
 import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.entity.Movie;
-import de.proximity.kinoshka.moviedetails.ScrollingActivity;
+import de.proximity.kinoshka.moviedetails.MovieDetailsActivity;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -44,8 +45,8 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
                 .build().inject(this);
         adapter = new MovieGridAdapter(new MovieGridAdapter.ListItemClickListener() {
             @Override
-            public void onListItemClick(int clickedItemIndex) {
-                presenter.onMovieClicked(clickedItemIndex);
+            public void onListItemClick(int clickedItemIndex, View v) {
+                presenter.onMovieClicked(clickedItemIndex, v);
             }
         });
         initGrid();
@@ -108,12 +109,14 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     }
 
     @Override
-    public void navigateToMovieDetails(Movie movie) {
-//        Intent intent = new Intent(MovieListActivity.this, MovieDetailsActivity.class);
-        Intent intent = new Intent(MovieListActivity.this, ScrollingActivity.class);
+    public void navigateToMovieDetails(Movie movie, View v) {
+        Intent intent = new Intent(MovieListActivity.this, MovieDetailsActivity.class);
+
         Bundle extras = new Bundle();
         extras.putParcelable(Movie.ITEM_KEY, movie);
         intent.putExtras(extras);
-        startActivity(intent);
+
+        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this, v, v.getTransitionName()).toBundle();
+        startActivity(intent, bundle);
     }
 }

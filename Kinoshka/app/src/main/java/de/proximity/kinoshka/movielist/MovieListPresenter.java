@@ -1,6 +1,8 @@
 package de.proximity.kinoshka.movielist;
 
 
+import android.view.View;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +67,8 @@ public class MovieListPresenter implements MovieListContract.Presenter {
     }
 
     @Override
-    public void onMovieClicked(int clickedItemIndex) {
-        view.navigateToMovieDetails(movies.get(clickedItemIndex));
+    public void onMovieClicked(int clickedItemIndex, View v) {
+        view.navigateToMovieDetails(movies.get(clickedItemIndex), v);
     }
 
     @Override

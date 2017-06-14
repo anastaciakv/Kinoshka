@@ -71,6 +71,21 @@ public class NetworkModule {
         httpClient.addInterceptor(logging);
     }
 
+    public static String IMG_BASE_URL = "http://image.tmdb.org/t/p/";
+
+    public interface SupportedImageSize {
+        String w92 = "w92";
+        String w154 = "w154";
+        String w185 = "w185";
+        String w342 = "w342";
+        String w500 = "w500";
+        String w780 = "w780";
+    }
+
+    public static String getImageUrl(String size, String path) {
+        return IMG_BASE_URL.concat(size).concat(path);
+    }
+
     @Provides
     @Singleton
     ApiClient provideApiClient() {

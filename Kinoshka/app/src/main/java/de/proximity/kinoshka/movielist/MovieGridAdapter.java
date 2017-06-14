@@ -17,12 +17,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.proximity.kinoshka.R;
-import de.proximity.kinoshka.data.remote.ApiClient;
+import de.proximity.kinoshka.data.remote.NetworkModule;
 import de.proximity.kinoshka.entity.Movie;
 
 class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> {
     public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onListItemClick(int clickedItemIndex, View v);
     }
 
     final private ListItemClickListener onClickListener;
@@ -68,17 +68,18 @@ class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHo
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
-            itemView.setOnClickListener(this);
+            ivPoster.setOnClickListener(this);
         }
 
         public void bind(int position) {
-            Picasso.with(context).load(ApiClient.IMG_BASE_URL.concat(movies.get(position).posterPath)).into(ivPoster);
+            String imgUrl = NetworkModule.getImageUrl(NetworkModule.SupportedImageSize.w342, movies.get(position).posterPath);
+            Picasso.with(context).load(imgUrl).into(ivPoster);
 //            label.setText(String.valueOf(position));
         }
 
         @Override
         public void onClick(View v) {
-            onClickListener.onListItemClick(getAdapterPosition());
+            onClickListener.onListItemClick(getAdapterPosition(), v);
         }
     }
 }
