@@ -53,3 +53,5 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+/Kinoshka/app/src/main/res/values/keys.xml
+/Kinoshka/app/src/androidTest/java/de/proximity/kinoshka/ExampleInstrumentedTest.java
