@@ -27,18 +27,12 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <!--   <android.support.v7.widget.Toolbar
-                       android:id="@+id/toolbar"
-                       android:layout_width="match_parent"
-                       android:layout_height="?attr/actionBarSize"
-                       app:layout_collapseMode="pin"
-                       app:popupTheme="@style/AppTheme.PopupOverlay" />-->
-
                 <ImageView
                     android:id="@+id/ivPoster"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/cd_poster"
                     android:onClick="onPosterClicked"
                     android:scaleType="centerCrop"
                     android:transitionName="@string/transition_poster" />
@@ -73,16 +67,16 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="Movie Title"
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        tools:text="Movie Title" />
 
                     <TextView
                         android:id="@+id/tvRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|end"
-                        android:drawableLeft="@drawable/ic_stars"
+                        android:drawableStart="@drawable/ic_stars"
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="18sp"
@@ -118,6 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/cd_poster"
         android:onClick="onBigPosterClicked"
         android:scaleType="centerCrop"
         android:visibility="gone" />
