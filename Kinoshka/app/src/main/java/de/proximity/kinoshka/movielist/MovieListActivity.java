@@ -56,8 +56,8 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
 
     private void initGrid() {
         final GridLayoutManager layoutManager = new GridLayoutManager(this, getNumberOfColumns());
-
         rvMovieList.setLayoutManager(layoutManager);
+        rvMovieList.setHasFixedSize(true);
         rvMovieList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
