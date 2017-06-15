@@ -1,8 +1,8 @@
 package de.proximity.kinoshka.moviedetails;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,15 +10,19 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.proximity.kinoshka.R;
-import de.proximity.kinoshka.data.remote.NetworkModule;
 import de.proximity.kinoshka.entity.Movie;
 
-public class MovieDetailsActivity extends AppCompatActivity {
-    private static final String TAG = MovieDetailsActivity.class.getSimpleName();
-    private Movie movie;
+import static dagger.internal.Preconditions.checkNotNull;
+
+public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailsContract.View {
+    @Inject
+    MovieDetailsContract.Presenter presenter;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.tvDescription)
@@ -35,7 +39,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         ButterKnife.bind(this);
-
+        Movie movie = null;
         if (getIntent().getExtras() != null) {
             movie = getIntent().getExtras().getParcelable(Movie.ITEM_KEY);
         }
@@ -45,33 +49,67 @@ public class MovieDetailsActivity extends AppCompatActivity {
             return;
         }
 
-        setMovieData();
+        DaggerMovieDetailscomponent.builder()
+                .movieDetailsModule(new MovieDetailsModule(this, movie)).build()
+                .inject(this);
     }
 
-    private void setMovieData() {
-        String imgUrl = NetworkModule.getImageUrl(NetworkModule.SupportedImageSize.w342, movie.posterPath);
-        Log.i(TAG, "setMovieData: " + imgUrl);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.start();
+    }
+
+    @OnClick(R.id.ivPoster)
+    public void onPosterClicked(View view) {
+        presenter.onPosterClicked();
+    }
+
+    @OnClick(R.id.ivPosterBig)
+    public void onBigPosterClicked(View view) {
+        presenter.onBigPosterClicked();
+    }
+
+    @Override
+    public void setPresenter(@NonNull MovieDetailsContract.Presenter presenter) {
+        checkNotNull(presenter);
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void setMovieTitle(String title) {
+        tvTitle.setText(title);
+    }
+
+    @Override
+    public void setMovieDescription(String overview) {
+        tvDescription.append(overview);
+    }
+
+    @Override
+    public void setMoviePoster(String imgUrl) {
         Picasso.with(this).load(imgUrl).into(ivPoster);
+    }
 
-        tvTitle.setText(movie.originalTitle);
-        tvDescription.append(movie.overview);
+    @Override
+    public void setMovieReleaseDate(String releaseDate) {
         tvDescription.append("\n\n");
-        tvDescription.append("Release Date: " + movie.releaseDate);
+        tvDescription.append(getString(R.string.lbl_release_date) + " " + releaseDate);
+    }
 
-        tvRating.setText(String.valueOf(movie.voteAverage));
-        ivPoster.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String imgUrl = NetworkModule.getImageUrl(NetworkModule.SupportedImageSize.w780, movie.posterPath);
-                Picasso.with(MovieDetailsActivity.this).load(imgUrl).into(ivPosterBig);
-                ivPosterBig.setVisibility(View.VISIBLE);
-            }
-        });
-        ivPosterBig.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ivPosterBig.setVisibility(View.INVISIBLE);
-            }
-        });
+    @Override
+    public void setMovieRating(String rating) {
+        tvRating.setText(String.valueOf(rating));
+    }
+
+    @Override
+    public void displayBigPoster(String imgUrl) {
+        Picasso.with(MovieDetailsActivity.this).load(imgUrl).into(ivPosterBig);
+        ivPosterBig.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideBigPoster() {
+        ivPosterBig.setVisibility(View.INVISIBLE);
     }
 }

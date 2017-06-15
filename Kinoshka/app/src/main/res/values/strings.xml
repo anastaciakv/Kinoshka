@@ -6,4 +6,5 @@
     <string name="sort">Sort by</string>
     <string name="most_popular">Most popular</string>
     <string name="top_rated">Top rated</string>
+    <string name="lbl_release_date">Release Date:</string>
 </resources>

@@ -39,6 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:onClick="onPosterClicked"
                     android:scaleType="centerCrop"
                     android:transitionName="@string/transition_poster" />
 
@@ -117,6 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
+        android:onClick="onBigPosterClicked"
         android:scaleType="centerCrop"
         android:visibility="gone" />
 </FrameLayout>

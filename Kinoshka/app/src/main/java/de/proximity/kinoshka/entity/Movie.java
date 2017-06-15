@@ -9,9 +9,9 @@ public class Movie implements Parcelable {
     public int voteCount;
     public int id;
     public boolean video;
-    public float voteAverage;
+    public double voteAverage;
     public String title;
-    public float popularity;
+    public double popularity;
     public String posterPath;
     public String originalLanguage;
     public String originalTitle;
@@ -20,13 +20,16 @@ public class Movie implements Parcelable {
     public String overview;
     public String releaseDate;
 
+    public Movie() {
+    }
+
     private Movie(Parcel in) {
         voteCount = in.readInt();
         id = in.readInt();
         video = in.readByte() != 0;
-        voteAverage = in.readFloat();
+        voteAverage = in.readDouble();
         title = in.readString();
-        popularity = in.readFloat();
+        popularity = in.readDouble();
         posterPath = in.readString();
         originalLanguage = in.readString();
         originalTitle = in.readString();
@@ -58,9 +61,9 @@ public class Movie implements Parcelable {
         parcel.writeInt(voteCount);
         parcel.writeInt(id);
         parcel.writeByte((byte) (video ? 1 : 0));
-        parcel.writeFloat(voteAverage);
+        parcel.writeDouble(voteAverage);
         parcel.writeString(title);
-        parcel.writeFloat(popularity);
+        parcel.writeDouble(popularity);
         parcel.writeString(posterPath);
         parcel.writeString(originalLanguage);
         parcel.writeString(originalTitle);
