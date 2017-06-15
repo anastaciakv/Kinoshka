@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -21,6 +20,8 @@ import de.proximity.kinoshka.data.remote.NetworkModule;
 import de.proximity.kinoshka.entity.Movie;
 
 class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> {
+
+
     public interface ListItemClickListener {
         void onListItemClick(int clickedItemIndex, View v);
     }
@@ -36,6 +37,11 @@ class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHo
 
     public void update(List<Movie> movieList) {
         this.movies.addAll(movieList);
+        notifyDataSetChanged();
+    }
+
+    public void clearMovieList() {
+        movies.clear();
         notifyDataSetChanged();
     }
 
@@ -60,8 +66,6 @@ class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHo
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.ivPoster)
         ImageView ivPoster;
-        @BindView(R.id.tvLabel)
-        TextView label;
         private Context context;
 
         public MovieViewHolder(View itemView) {
@@ -74,7 +78,6 @@ class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHo
         public void bind(int position) {
             String imgUrl = NetworkModule.getImageUrl(NetworkModule.SupportedImageSize.w342, movies.get(position).posterPath);
             Picasso.with(context).load(imgUrl).into(ivPoster);
-//            label.setText(String.valueOf(position));
         }
 
         @Override

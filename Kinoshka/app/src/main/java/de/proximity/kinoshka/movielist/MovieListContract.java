@@ -1,8 +1,6 @@
 package de.proximity.kinoshka.movielist;
 
 
-import android.view.View;
-
 import java.util.List;
 
 import de.proximity.kinoshka.entity.Movie;
@@ -21,6 +19,8 @@ public interface MovieListContract {
         void updateMovieList(List<Movie> movies);
 
         void navigateToMovieDetails(Movie movie, android.view.View v);
+
+        void clearMovieList();
     }
 
     interface Presenter extends BasePresenter {
@@ -28,5 +28,9 @@ public interface MovieListContract {
         void onMovieClicked(int clickedItemIndex, android.view.View v);
 
         void onListScrolled(int visibleItemCount, int totalItemCount, int firstVisibleItemPosition);
+
+        void onSortByMostPopular();
+
+        void onSortByTopRated();
     }
 }

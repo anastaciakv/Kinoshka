@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -72,6 +74,27 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         rvMovieList.setAdapter(adapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.movie_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_sort_by_most_popular:
+                presenter.onSortByMostPopular();
+                item.setChecked(true);
+                return true;
+            case R.id.menu_sort_by_top_rated:
+                presenter.onSortByTopRated();
+                item.setChecked(true);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private int getNumberOfColumns() {
         //todo put it to res and adopt for tablets
         return 2;
@@ -118,5 +141,10 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
 
         Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this, v, v.getTransitionName()).toBundle();
         startActivity(intent, bundle);
+    }
+
+    @Override
+    public void clearMovieList() {
+        adapter.clearMovieList();
     }
 }

@@ -34,16 +34,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
         ButterKnife.bind(this);
 
         if (getIntent().getExtras() != null) {
             movie = getIntent().getExtras().getParcelable(Movie.ITEM_KEY);
         }
         if (movie == null) {
-            Toast.makeText(this, "Error!No movie to display!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.msg_no_movie_to_display, Toast.LENGTH_LONG).show();
             finish();
             return;
         }
@@ -52,12 +49,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void setMovieData() {
-        //        String imgUrl = NetworkModule.getImageUrl(NetworkModule.SupportedImageSize.w500, movie.backdropPath);
         String imgUrl = NetworkModule.getImageUrl(NetworkModule.SupportedImageSize.w342, movie.posterPath);
         Log.i(TAG, "setMovieData: " + imgUrl);
         Picasso.with(this).load(imgUrl).into(ivPoster);
 
-        tvTitle.setText(movie.title);
+        tvTitle.setText(movie.originalTitle);
         tvDescription.append(movie.overview);
         tvDescription.append("\n\n");
         tvDescription.append("Release Date: " + movie.releaseDate);

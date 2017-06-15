@@ -13,5 +13,7 @@ public interface MovieTask {
         void onMovieListFetchError();
     }
 
-    void fetchPopularMovies(int page, @NonNull MovieTaskCallback callback);
+    //  void fetchPopularMovies(int page, @NonNull MovieTaskCallback callback);
+
+    void fetchMovies(int sortMode, int page, @NonNull MovieTaskCallback callback);
 }

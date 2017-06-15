@@ -69,4 +69,9 @@ public class Movie implements Parcelable {
         parcel.writeString(overview);
         parcel.writeString(releaseDate);
     }
+
+    public interface SortMode {
+        int mostPopular = 1;
+        int topRated = 2;
+    }
 }

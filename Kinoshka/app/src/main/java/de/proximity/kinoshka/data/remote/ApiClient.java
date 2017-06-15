@@ -11,4 +11,7 @@ public interface ApiClient {
 
     @GET("movie/popular")
     Call<MovieListResponse> getPopularMoviesList(@Query("page") int page);
+
+    @GET("movie/top_rated")
+    Call<MovieListResponse> getTopRatedMoviesList(@Query("page") int page);
 }

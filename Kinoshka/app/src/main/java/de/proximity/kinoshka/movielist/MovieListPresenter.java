@@ -14,28 +14,29 @@ public class MovieListPresenter implements MovieListContract.Presenter {
     private static final String TAG = MovieListPresenter.class.getSimpleName();
     private final MovieListContract.View view;
     private final MovieTask movieTask;
-    private final int PAGE_SIZE = 20;
     private MovieTask.MovieTaskCallback movieTaskCallback;
     private boolean isLoading;
-    private int currentPage = 1;
+    int currentPage = 1;
     private int totalPages = 1;
     List<Movie> movies = new ArrayList<>();
+    int currentSortMode;
 
     public MovieListPresenter(MovieListContract.View view, MovieTask movieTask) {
         this.view = view;
         this.movieTask = movieTask;
+        currentSortMode = Movie.SortMode.mostPopular;
     }
 
     @Override
     public void start() {
         if (movies.isEmpty())
-            fetchPopularMovies();
+            fetchMovies();
     }
 
-    void fetchPopularMovies() {
+    void fetchMovies() {
         view.showProgress(true);
         isLoading = true;
-        movieTask.fetchPopularMovies(currentPage, getMovieTaskCallback());
+        movieTask.fetchMovies(currentSortMode, currentPage, getMovieTaskCallback());
     }
 
     public MovieTask.MovieTaskCallback getMovieTaskCallback() {
@@ -77,9 +78,29 @@ public class MovieListPresenter implements MovieListContract.Presenter {
             if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                     && firstVisibleItemPosition > 0) {
                 currentPage++;
-                fetchPopularMovies();
+                fetchMovies();
             }
         }
+    }
+
+    @Override
+    public void onSortByMostPopular() {
+        if (currentSortMode == Movie.SortMode.mostPopular) return;
+        changeSortModeAndUpdate(Movie.SortMode.mostPopular);
+    }
+
+    @Override
+    public void onSortByTopRated() {
+        if (currentSortMode == Movie.SortMode.topRated) return;
+        changeSortModeAndUpdate(Movie.SortMode.topRated);
+    }
+
+    private void changeSortModeAndUpdate(int sortMode) {
+        currentSortMode = sortMode;
+        currentPage = 1;
+        movies.clear();
+        view.clearMovieList();
+        fetchMovies();
     }
 
     private boolean isLastPage() {

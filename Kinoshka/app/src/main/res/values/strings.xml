@@ -2,4 +2,8 @@
     <string name="app_name">Kinoshka</string>
     <string name="empty_movie_list_error_msg">Ooops! No movies available</string>
     <string name="transition_poster">transition_poster</string>
+    <string name="msg_no_movie_to_display">Error! No movie to display!</string>
+    <string name="sort">Sort by</string>
+    <string name="most_popular">Most popular</string>
+    <string name="top_rated">Top rated</string>
 </resources>

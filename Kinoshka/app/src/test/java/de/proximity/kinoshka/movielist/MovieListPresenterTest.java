@@ -17,7 +17,9 @@ import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.MovieListResponse;
 import de.proximity.kinoshka.movielist.testutils.TestUtils;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -42,7 +44,8 @@ public class MovieListPresenterTest {
     public void when_start_then_fetchMovies() throws Exception {
         presenter.movies = new ArrayList<>();
         presenter.start();
-        verify(movieTask).fetchPopularMovies(anyInt(), any(MovieTask.MovieTaskCallback.class));
+        verify(movieTask).fetchMovies(anyInt(), anyInt(), any(MovieTask.MovieTaskCallback.class));
+        assertEquals(Movie.SortMode.mostPopular, presenter.currentSortMode);
     }
 
     @Test
@@ -59,15 +62,15 @@ public class MovieListPresenterTest {
 
     @Test
     public void when_fetchMovies_then_showProgress() throws Exception {
-        presenter.fetchPopularMovies();
+        presenter.fetchMovies();
 
         verify(view).showProgress(true);
     }
 
     @Test
     public void when_fetchMoviesSuccess_then_hideProgressAndHideEmptyView() throws Exception {
-        presenter.fetchPopularMovies();
-        verify(movieTask).fetchPopularMovies(anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        presenter.fetchMovies();
+        verify(movieTask).fetchMovies(anyInt(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
         movieTaskCallbackArgumentCaptor.getValue().onMovieListFetched(getPopularMovies());
 
         verify(view).showProgress(false);
@@ -77,8 +80,8 @@ public class MovieListPresenterTest {
 
     @Test
     public void when_fetchMoviesFail_then_hideProgressAndShowEmptyView() throws Exception {
-        presenter.fetchPopularMovies();
-        verify(movieTask).fetchPopularMovies(anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        presenter.fetchMovies();
+        verify(movieTask).fetchMovies(anyInt(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
         movieTaskCallbackArgumentCaptor.getValue().onMovieListFetchError();
 
         verify(view).showProgress(false);
@@ -88,8 +91,8 @@ public class MovieListPresenterTest {
 
     @Test
     public void when_fetchMoviesSuccess_then_updateMoviewList() throws Exception {
-        presenter.fetchPopularMovies();
-        verify(movieTask).fetchPopularMovies(anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        presenter.fetchMovies();
+        verify(movieTask).fetchMovies(anyInt(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
         MovieListResponse response = getPopularMovies();
         movieTaskCallbackArgumentCaptor.getValue().onMovieListFetched(response);
 
@@ -100,10 +103,75 @@ public class MovieListPresenterTest {
     public void when_itemClicked_then_navigateToMovieDetails() throws Exception {
         List<Movie> movieList = getPopularMovies().movies;
         presenter.movies = movieList;
-        presenter.onMovieClicked(2, v);
-        verify(view).navigateToMovieDetails(movieList.get(2), v);
+        presenter.onMovieClicked(2, null);
+        verify(view).navigateToMovieDetails(movieList.get(2), null);
     }
 
+    @Test
+    public void given_currentSortByPopular_when_sortByMostPopular_then_doNothing() throws Exception {
+        presenter.currentSortMode = Movie.SortMode.mostPopular;
+        presenter.onSortByMostPopular();
+        verifyZeroInteractions(movieTask);
+    }
+
+    @Test
+    public void given_currentSortByTopRated_when_sortByTopRated_then_doNothing() throws Exception {
+        presenter.currentSortMode = Movie.SortMode.topRated;
+        presenter.onSortByTopRated();
+        verifyZeroInteractions(movieTask);
+    }
+
+    @Test
+    public void given_currentSortByPopular_when_sortByTopRated_then_UpdateMovieList() throws Exception {
+        presenter.currentSortMode = Movie.SortMode.mostPopular;
+        presenter.movies = getPopularMovies().movies;
+        presenter.onSortByTopRated();
+        verify(view).clearMovieList();
+        assertTrue(presenter.movies.isEmpty());
+        verify(movieTask).fetchMovies(Movie.SortMode.topRated, 1, presenter.getMovieTaskCallback());
+    }
+
+    @Test
+    public void given_currentSortByTopRated_when_sortByPopular_then_UpdateMovieList() throws Exception {
+        presenter.movies = getPopularMovies().movies;
+        presenter.currentSortMode = Movie.SortMode.topRated;
+        presenter.onSortByMostPopular();
+        verify(view).clearMovieList();
+        assertTrue(presenter.movies.isEmpty());
+        verify(movieTask).fetchMovies(Movie.SortMode.mostPopular, 1, presenter.getMovieTaskCallback());
+    }
+
+    @Test
+    public void given_currentPage5_when_sortChangedToTopRated_then_CurrentPage1() throws Exception {
+        presenter.currentSortMode = Movie.SortMode.mostPopular;
+        presenter.currentPage = 5;
+        presenter.onSortByTopRated();
+        assertEquals(1, presenter.currentPage);
+    }
+
+    @Test
+    public void given_currentPage5_when_sortChangedToMostPopular_then_CurrentPage1() throws Exception {
+        presenter.currentSortMode = Movie.SortMode.topRated;
+        presenter.currentPage = 5;
+        presenter.onSortByMostPopular();
+        assertEquals(1, presenter.currentPage);
+    }
+
+    @Test
+    public void given_currentPage5_sortPopular_when_sortNotChanged_then_PageNotChanged() throws Exception {
+        presenter.currentSortMode = Movie.SortMode.mostPopular;
+        presenter.currentPage = 5;
+        presenter.onSortByMostPopular();
+        assertEquals(5, presenter.currentPage);
+    }
+
+    @Test
+    public void given_currentPage5_sortTopRated_when_sortNotChanged_then_PageNotChanged() throws Exception {
+        presenter.currentSortMode = Movie.SortMode.topRated;
+        presenter.currentPage = 5;
+        presenter.onSortByTopRated();
+        assertEquals(5, presenter.currentPage);
+    }
 
     private MovieListResponse getPopularMovies() {
         String responseJson = TestUtils.loadJSONFromFile(this, "popular-movie-list.json");
