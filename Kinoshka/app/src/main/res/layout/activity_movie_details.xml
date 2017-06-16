@@ -68,7 +68,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/movie_title_text_size"
                         tools:text="Movie Title" />
 
                     <TextView
@@ -79,7 +79,7 @@
                         android:drawableStart="@drawable/ic_stars"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/rating_text_size"
                         android:textStyle="bold"
                         tools:text="4.7" />
                 </LinearLayout>
@@ -87,7 +87,7 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp">
+                    android:layout_margin="@dimen/activity_horizontal_margin">
 
                     <TextView
                         android:id="@+id/tvDescription"
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvDescriptionLabel"
                         android:padding="@dimen/text_margin"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/movie_description_text_size"
                         tools:text="Movie Description\n\n\n" />
 
                 </android.support.v7.widget.CardView>

@@ -1,4 +1,10 @@
 <resources>
     <dimen name="app_bar_height">420dp</dimen>
+    <!--Movie details screen-->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="movie_title_text_size">20sp</dimen>
+    <dimen name="rating_text_size">18sp</dimen>
+    <dimen name="movie_description_text_size">16sp</dimen>
+    <!---->
 </resources>
