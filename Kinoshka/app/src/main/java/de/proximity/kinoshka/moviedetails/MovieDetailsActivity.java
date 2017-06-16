@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -42,7 +44,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         ButterKnife.bind(this);
         Movie movie = null;
         if (getIntent().getExtras() != null) {
-            movie = getIntent().getExtras().getParcelable(Movie.ITEM_KEY);
+            movie = Parcels.unwrap(getIntent().getParcelableExtra(Movie.ITEM_KEY));
         }
         if (movie == null) {
             Toast.makeText(this, R.string.msg_no_movie_to_display, Toast.LENGTH_LONG).show();

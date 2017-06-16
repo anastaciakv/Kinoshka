@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -142,7 +144,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         Intent intent = new Intent(MovieListActivity.this, MovieDetailsActivity.class);
 
         Bundle extras = new Bundle();
-        extras.putParcelable(Movie.ITEM_KEY, movie);
+        extras.putParcelable(Movie.ITEM_KEY, Parcels.wrap(movie));
         intent.putExtras(extras);
 
         Bundle bundle = null;

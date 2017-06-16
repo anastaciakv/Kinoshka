@@ -33,4 +33,5 @@ ext {
     butterknifeVersion = '8.5.1'
     loggingInterceptorVersion = '3.7.0'
     picassoVersion = '2.5.2'
+    parcelerVersion = '1.1.6'
 }

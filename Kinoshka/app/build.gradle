@@ -41,6 +41,10 @@ dependencies {
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
+    //Parcelable
+    compile "org.parceler:parceler-api:$rootProject.parcelerVersion"
+    annotationProcessor "org.parceler:parceler:$rootProject.parcelerVersion"
+
     //unit tests; mocking objects
     testCompile "junit:junit:$rootProject.junitVersion"
     testCompile "org.mockito:mockito-core:$rootProject.mockitoVersion"
