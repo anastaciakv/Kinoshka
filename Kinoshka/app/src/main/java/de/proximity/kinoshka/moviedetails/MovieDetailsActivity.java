@@ -2,6 +2,7 @@ package de.proximity.kinoshka.moviedetails;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -88,7 +89,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void setMoviePoster(String imgUrl) {
-        Picasso.with(this).load(imgUrl).into(ivPoster);
+        Picasso.with(this).load(imgUrl).error(ContextCompat.getDrawable(this, R.drawable.ic_image))
+                .placeholder(ContextCompat.getDrawable(this, R.drawable.ic_image)).into(ivPoster);
     }
 
     @Override
@@ -104,7 +106,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void displayBigPoster(String imgUrl) {
-        Picasso.with(MovieDetailsActivity.this).load(imgUrl).into(ivPosterBig);
+        Picasso.with(MovieDetailsActivity.this).load(imgUrl).error(ContextCompat.getDrawable(this, R.drawable.ic_image))
+                .into(ivPosterBig);
         ivPosterBig.setVisibility(View.VISIBLE);
     }
 

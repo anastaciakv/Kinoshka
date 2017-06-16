@@ -2,6 +2,7 @@ package de.proximity.kinoshka.movielist;
 
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,10 @@ class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHo
 
         public void bind(int position) {
             String imgUrl = NetworkModule.getImageUrl(NetworkModule.SupportedImageSize.w342, movies.get(position).posterPath);
-            Picasso.with(context).load(imgUrl).into(ivPoster);
+            Picasso.with(context).load(imgUrl)
+                    .error(ContextCompat.getDrawable(context, R.drawable.ic_image))
+                    .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_image))
+                    .into(ivPoster);
         }
 
         @Override
