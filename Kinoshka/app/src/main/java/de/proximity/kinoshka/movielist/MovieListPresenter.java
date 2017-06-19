@@ -11,7 +11,6 @@ import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.MovieListResponse;
 
 public class MovieListPresenter implements MovieListContract.Presenter {
-    private static final String TAG = MovieListPresenter.class.getSimpleName();
     private final MovieListContract.View view;
     private final MovieTask movieTask;
     private MovieTask.MovieTaskCallback movieTaskCallback;

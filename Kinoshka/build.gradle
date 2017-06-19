@@ -34,4 +34,5 @@ ext {
     loggingInterceptorVersion = '3.7.0'
     picassoVersion = '2.5.2'
     parcelerVersion = '1.1.6'
+    timberVersion = '4.5.1'
 }

@@ -45,6 +45,9 @@ dependencies {
     compile "org.parceler:parceler-api:$rootProject.parcelerVersion"
     annotationProcessor "org.parceler:parceler:$rootProject.parcelerVersion"
 
+    //Logs
+    compile "com.jakewharton.timber:timber:$rootProject.timberVersion"
+
     //unit tests; mocking objects
     testCompile "junit:junit:$rootProject.junitVersion"
     testCompile "org.mockito:mockito-core:$rootProject.mockitoVersion"
