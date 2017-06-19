@@ -90,6 +90,18 @@ public class MovieListPresenterTest {
     }
 
     @Test
+    public void given_someMoviesAlreadyFetched_when_fetchMoviesFail_then_hideProgress() throws Exception {
+        presenter.movies = getPopularMovies().movies;
+        presenter.fetchMovies();
+        verify(movieTask).fetchMovies(anyInt(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        movieTaskCallbackArgumentCaptor.getValue().onMovieListFetchError();
+
+        verify(view).showProgress(false);
+        verify(view).showEmptyView(false);
+        verify(view).showList(true);
+    }
+
+    @Test
     public void when_fetchMoviesSuccess_then_updateMoviewList() throws Exception {
         presenter.fetchMovies();
         verify(movieTask).fetchMovies(anyInt(), anyInt(), movieTaskCallbackArgumentCaptor.capture());

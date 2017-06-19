@@ -58,8 +58,8 @@ public class MovieListPresenter implements MovieListContract.Presenter {
                 public void onMovieListFetchError() {
                     isLoading = false;
                     view.showProgress(false);
-                    view.showList(false);
-                    view.showEmptyView(true);
+                    view.showList(!movies.isEmpty());
+                    view.showEmptyView(movies.isEmpty());
 
                 }
             };
