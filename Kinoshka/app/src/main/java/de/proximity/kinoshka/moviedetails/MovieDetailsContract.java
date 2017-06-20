@@ -5,7 +5,7 @@ import de.proximity.kinoshka.utils.BasePresenter;
 import de.proximity.kinoshka.utils.BaseView;
 
 public interface MovieDetailsContract {
-    public interface View extends BaseView<Presenter> {
+    interface View extends BaseView<Presenter> {
 
         void setMovieTitle(String title);
 
@@ -22,7 +22,7 @@ public interface MovieDetailsContract {
         void hideBigPoster();
     }
 
-    public interface Presenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
 
         void onPosterClicked();
 
