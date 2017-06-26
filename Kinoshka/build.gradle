@@ -32,10 +32,11 @@ ext {
     espressoVersion = '2.2.2'
     mockitoVersion = '1.10.19'
     retrofitVersion = '2.2.0'
-    daggerVersion = '2.7'
+    daggerVersion = '2.11-rc2'
     butterknifeVersion = '8.5.1'
     loggingInterceptorVersion = '3.7.0'
     picassoVersion = '2.5.2'
     parcelerVersion = '1.1.6'
     timberVersion = '4.5.1'
+    archVersion = '1.0.0-alpha3'
 }

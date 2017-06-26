@@ -4,6 +4,8 @@ package de.proximity.kinoshka;
 import android.app.Application;
 
 import de.proximity.kinoshka.data.remote.NetworkModule;
+import de.proximity.kinoshka.di.AppComponent;
+import de.proximity.kinoshka.di.AppModule;
 import timber.log.Timber;
 
 public class MyApplication extends Application {
@@ -18,11 +20,12 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         THE_MOVIE_DB_API_KEY = getString(R.string.the_movie_db_api_key);
-        appComponent = DaggerAppComponent.builder()
+        initTimber();
+        appComponent = de.proximity.kinoshka.di.DaggerAppComponent
+                .builder()
                 .appModule(new AppModule(getApplicationContext()))
                 .networkModule(new NetworkModule())
                 .build();
-        initTimber();
     }
 
     private void initTimber() {

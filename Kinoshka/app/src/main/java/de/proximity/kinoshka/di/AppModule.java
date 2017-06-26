@@ -1,4 +1,4 @@
-package de.proximity.kinoshka;
+package de.proximity.kinoshka.di;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,17 +10,17 @@ import dagger.Provides;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
-@Module
-class AppModule {
+@Module(includes = ViewModelModule.class)
+public class AppModule {
     private Context appContext;
 
-    AppModule(@NonNull Context context) {
+    public AppModule(@NonNull Context context) {
         appContext = checkNotNull(context);
     }
 
     @Provides
     @Singleton
-    Context providesContext() {
+    public Context providesContext() {
         return appContext;
     }
 }

@@ -1,7 +1,7 @@
 package de.proximity.kinoshka.movielist;
 
 import dagger.Component;
-import de.proximity.kinoshka.AppComponent;
+import de.proximity.kinoshka.di.AppComponent;
 import de.proximity.kinoshka.utils.ScreenScope;
 
 @ScreenScope

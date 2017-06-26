@@ -1,4 +1,4 @@
-package de.proximity.kinoshka;
+package de.proximity.kinoshka.di;
 
 import android.content.Context;
 
@@ -11,7 +11,8 @@ import de.proximity.kinoshka.data.remote.NetworkModule;
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
 public interface AppComponent {
+
     Context getContext();
 
-    ApiClient getApiCient();
+    ApiClient getApiClient();
 }

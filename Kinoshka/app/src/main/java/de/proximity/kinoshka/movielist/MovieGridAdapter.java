@@ -77,7 +77,7 @@ class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHo
         }
 
         public void bind(int position) {
-            String imgUrl = NetworkModule.getImageUrl(NetworkModule.SupportedImageSize.w342, movies.get(position).posterPath);
+            String imgUrl = NetworkModule.getImageUrl(Movie.SupportedImageSize.w342, movies.get(position).posterPath);
             Picasso.with(context).load(imgUrl)
                     .error(ContextCompat.getDrawable(context, R.drawable.ic_image))
                     .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_image))

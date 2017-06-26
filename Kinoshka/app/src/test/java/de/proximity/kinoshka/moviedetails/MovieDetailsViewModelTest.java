@@ -11,10 +11,10 @@ import de.proximity.kinoshka.entity.Movie;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 
-public class MovieDetailsPresenterTest {
+public class MovieDetailsViewModelTest {
     @Mock
     MovieDetailsContract.View view;
-    MovieDetailsPresenter presenter;
+    MovieDetailsViewModel presenter;
     Movie movie;
 
     @Before
@@ -27,7 +27,7 @@ public class MovieDetailsPresenterTest {
         movie.overview = "Some movie description";
         movie.releaseDate = "13/06/2016";
 
-        presenter = new MovieDetailsPresenter(view, movie);
+        presenter = new MovieDetailsViewModel(view, movie);
     }
 
     @Test
