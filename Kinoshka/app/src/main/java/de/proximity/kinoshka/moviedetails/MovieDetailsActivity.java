@@ -1,9 +1,7 @@
 package de.proximity.kinoshka.moviedetails;
 
 import android.arch.lifecycle.LifecycleActivity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.BindingAdapter;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
@@ -39,12 +37,12 @@ public class MovieDetailsActivity extends LifecycleActivity implements android.d
             return;
         }
 
-        MovieDetailsViewModel viewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
-        viewModel.setMovie(movie);
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details, this);
-        binding.setMovie(movie);
-        binding.setVmodel(viewModel);
+//        MovieDetailsViewModel viewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
+//        viewModel.setMovie(movie);
+//
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details, this);
+//        binding.setMovie(movie);
+//        binding.setVmodel(viewModel);
     }
 
     @Override

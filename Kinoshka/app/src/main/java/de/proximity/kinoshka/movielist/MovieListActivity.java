@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.moviedetails.MovieDetailsActivity;
+import de.proximity.kinoshka.ui.movielist.MovieGridAdapter;
 
 import static dagger.internal.Preconditions.checkNotNull;
 

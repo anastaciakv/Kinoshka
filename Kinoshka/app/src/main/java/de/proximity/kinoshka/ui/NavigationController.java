@@ -1,5 +1,6 @@
 package de.proximity.kinoshka.ui;
 
+
 import android.support.v4.app.FragmentManager;
 
 import javax.inject.Inject;

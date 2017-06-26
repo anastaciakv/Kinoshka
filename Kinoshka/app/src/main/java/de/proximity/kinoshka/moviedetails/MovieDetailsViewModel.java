@@ -4,6 +4,8 @@ package de.proximity.kinoshka.moviedetails;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableBoolean;
 
+import javax.inject.Inject;
+
 import de.proximity.kinoshka.entity.Movie;
 
 public class MovieDetailsViewModel extends ViewModel {
@@ -15,6 +17,7 @@ public class MovieDetailsViewModel extends ViewModel {
     public Movie movie;
     private ObservableBoolean isBigPosterVisible;
 
+    @Inject
     public MovieDetailsViewModel() {
         isBigPosterVisible = new ObservableBoolean(false);
     }

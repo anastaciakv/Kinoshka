@@ -1,4 +1,4 @@
-package de.proximity.kinoshka.movielist;
+package de.proximity.kinoshka.ui.movielist;
 
 
 import android.content.Context;
@@ -20,7 +20,7 @@ import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.data.remote.NetworkModule;
 import de.proximity.kinoshka.entity.Movie;
 
-class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> {
+public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> {
 
 
     public interface ListItemClickListener {
