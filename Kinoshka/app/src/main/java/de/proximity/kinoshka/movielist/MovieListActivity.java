@@ -17,11 +17,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.proximity.kinoshka.MyApplication;
 import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.moviedetails.MovieDetailsActivity;
@@ -29,7 +26,7 @@ import de.proximity.kinoshka.moviedetails.MovieDetailsActivity;
 import static dagger.internal.Preconditions.checkNotNull;
 
 public class MovieListActivity extends AppCompatActivity implements MovieListContract.View {
-    @Inject
+
     MovieListContract.Presenter presenter;
     MovieGridAdapter adapter;
     @BindView(R.id.rvMovieList)
@@ -44,10 +41,10 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
         ButterKnife.bind(this);
-        DaggerMovieListComponent.builder()
-                .movieListModule(new MovieListModule(this))
-                .appComponent(MyApplication.getAppComponent())
-                .build().inject(this);
+//        DaggerMovieListComponent.builder()
+//                .movieListModule(new MovieListModule(this))
+//                .appComponent(MyApplication.getAppComponent())
+//                .build().inject(this);
         adapter = new MovieGridAdapter(new MovieGridAdapter.ListItemClickListener() {
             @Override
             public void onListItemClick(int clickedItemIndex, View v) {

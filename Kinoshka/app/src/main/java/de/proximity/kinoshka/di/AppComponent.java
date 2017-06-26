@@ -1,18 +1,25 @@
 package de.proximity.kinoshka.di;
 
-import android.content.Context;
+import android.app.Application;
 
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
-import de.proximity.kinoshka.data.remote.ApiClient;
-import de.proximity.kinoshka.data.remote.NetworkModule;
+import dagger.android.AndroidInjectionModule;
+import de.proximity.kinoshka.MyApplication;
 
 @Singleton
-@Component(modules = {AppModule.class, NetworkModule.class})
+@Component(modules = {AndroidInjectionModule.class, AppModule.class, MainActivityModule.class})
 public interface AppComponent {
 
-    Context getContext();
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder application(Application application);
 
-    ApiClient getApiClient();
+        AppComponent build();
+    }
+
+    void inject(MyApplication application);
 }
