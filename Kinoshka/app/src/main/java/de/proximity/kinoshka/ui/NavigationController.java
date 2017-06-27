@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import javax.inject.Inject;
 
 import de.proximity.kinoshka.R;
+import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.ui.moviedetails.MovieDetailsFragment;
 import de.proximity.kinoshka.ui.movielist.MovieListFragment;
 
@@ -27,8 +28,8 @@ public class NavigationController {
         fragmentManager.beginTransaction().replace(containerId, fragment).commit();
     }
 
-    public void navigateToMovieDetails() {
-        MovieDetailsFragment fragment = MovieDetailsFragment.newInstance();
+    public void navigateToMovieDetails(Movie movie) {
+        MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(movie);
         fragmentManager.beginTransaction().replace(containerId, fragment).addToBackStack(null).commit();
     }
 }

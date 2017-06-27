@@ -3,6 +3,9 @@ package de.proximity.kinoshka.data.remote;
 
 import android.support.annotation.NonNull;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.MovieListResponse;
@@ -12,9 +15,11 @@ import retrofit2.Response;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
+@Singleton
 public class MovieTaskImpl implements MovieTask {
     private final ApiClient apiClient;
 
+    @Inject
     public MovieTaskImpl(ApiClient apiClient) {
         this.apiClient = apiClient;
     }

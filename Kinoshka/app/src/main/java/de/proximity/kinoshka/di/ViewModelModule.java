@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
-import de.proximity.kinoshka.moviedetails.MovieDetailsViewModel;
+import de.proximity.kinoshka.ui.moviedetails.MovieDetailsViewModel;
 import de.proximity.kinoshka.ui.movielist.MovieListViewModel;
 import de.proximity.kinoshka.viewmodel.KinoshkaViewModelFactory;
 

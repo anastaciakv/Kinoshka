@@ -3,11 +3,10 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
-            name="vmodel"
+            name="viewmodel"
             type="de.proximity.kinoshka.ui.movielist.MovieListViewModel" />
+
     </data>
 
     <FrameLayout
@@ -17,24 +16,24 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvMovieList"
+            visibleGone="@{viewmodel.showList}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{vmodel.showList() ? View.VISIBLE : View.GONE}" />
+            tools:listitem="@layout/movie_item" />
 
         <TextView
             android:id="@+id/tvEmpty"
+            visibleGone="@{!viewmodel.showList}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/empty_movie_list_error_msg"
-            android:visibility="@{vmodel.showList() ? View.GONE : View.VISIBLE}" />
+            android:text="@string/empty_movie_list_error_msg" />
 
         <ProgressBar
             android:id="@+id/progress"
+            visibleGone="@{viewmodel.isLoading}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="@{vmodel.showList() ? View.GONE : View.VISIBLE}" />
-
+            android:layout_gravity="center" />
     </FrameLayout>
 </layout>

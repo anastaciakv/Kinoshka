@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ivPoster"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:adjustViewBounds="true"
-    android:contentDescription="@string/cd_poster"
-    android:scaleType="fitCenter"
-    android:transitionName="@string/transition_poster" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="de.proximity.kinoshka.entity.Movie" />
+    </data>
+
+    <ImageView
+        android:id="@+id/ivPoster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/cd_poster"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_image"
+        android:transitionName="@string/transition_poster"
+        app:imageUrl="@{movie.posterUrlW342}" />
+</layout>

@@ -5,8 +5,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import de.proximity.kinoshka.data.remote.NetworkModule;
 import de.proximity.kinoshka.entity.Movie;
+import de.proximity.kinoshka.ui.moviedetails.MovieDetailsViewModel;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;

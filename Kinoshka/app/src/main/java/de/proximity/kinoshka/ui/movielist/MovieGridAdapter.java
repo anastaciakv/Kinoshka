@@ -1,62 +1,60 @@
 package de.proximity.kinoshka.ui.movielist;
 
 
-import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.databinding.DataBindingComponent;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.proximity.kinoshka.R;
-import de.proximity.kinoshka.data.remote.NetworkModule;
+import de.proximity.kinoshka.databinding.MovieItemBinding;
 import de.proximity.kinoshka.entity.Movie;
 
 public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> {
 
+    private final android.databinding.DataBindingComponent dataBindingComponent;
 
-    public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex, View v);
+
+    public interface MovieClickCallback {
+        void onClick(Movie movie);
     }
 
-    final private ListItemClickListener onClickListener;
+    final private MovieClickCallback callback;
     List<Movie> movies;
 
-    public MovieGridAdapter(ListItemClickListener itemClickListener) {
-        this.onClickListener = itemClickListener;
+    public MovieGridAdapter(DataBindingComponent dataBindingComponent, MovieClickCallback callback) {
+        this.callback = callback;
+        this.dataBindingComponent = dataBindingComponent;
         movies = new ArrayList<>();
-
     }
 
     public void update(List<Movie> movieList) {
+        if (movieList.isEmpty()) this.movies.clear();
         this.movies.addAll(movieList);
-        notifyDataSetChanged();
-    }
-
-    public void clearMovieList() {
-        movies.clear();
         notifyDataSetChanged();
     }
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.movie_item, parent, false);
-        return new MovieViewHolder(view);
-
+        MovieItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.movie_item, parent, false, dataBindingComponent);
+        binding.getRoot().setOnClickListener(v -> {
+            Movie movie = binding.getMovie();
+            if (movie != null && callback != null) {
+                callback.onClick(movie);
+            }
+        });
+        return new MovieViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        holder.bind(position);
+        holder.bind(movies.get(position));
+        holder.binding.executePendingBindings();
     }
 
     @Override
@@ -64,29 +62,16 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
         return movies.size();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.ivPoster)
-        ImageView ivPoster;
-        private Context context;
+    class MovieViewHolder extends RecyclerView.ViewHolder {
+        private final MovieItemBinding binding;
 
-        public MovieViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            context = itemView.getContext();
-            ivPoster.setOnClickListener(this);
+        MovieViewHolder(MovieItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
-        public void bind(int position) {
-            String imgUrl = NetworkModule.getImageUrl(Movie.SupportedImageSize.w342, movies.get(position).posterPath);
-            Picasso.with(context).load(imgUrl)
-                    .error(ContextCompat.getDrawable(context, R.drawable.ic_image))
-                    .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_image))
-                    .into(ivPoster);
-        }
-
-        @Override
-        public void onClick(View v) {
-            onClickListener.onListItemClick(getAdapterPosition(), v);
+        void bind(Movie movie) {
+            binding.setMovie(movie);
         }
     }
 }

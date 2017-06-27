@@ -2,8 +2,6 @@ package de.proximity.kinoshka.entity;
 
 import org.parceler.Parcel;
 
-import de.proximity.kinoshka.data.remote.NetworkModule;
-
 @Parcel
 public class Movie {
     public static final String ITEM_KEY = "MOVIE_ITEM";
@@ -25,11 +23,11 @@ public class Movie {
     }
 
     public String getPosterUrlW342() {
-        return NetworkModule.getImageUrl(SupportedImageSize.w342, posterPath);
+        return getImageUrl(SupportedImageSize.w342, posterPath);
     }
 
     public String getPosterUrlW780() {
-        return NetworkModule.getImageUrl(SupportedImageSize.w780, posterPath);
+        return getImageUrl(SupportedImageSize.w780, posterPath);
     }
 
     public String getVoteAverageStr() {
@@ -39,6 +37,12 @@ public class Movie {
     public interface SortMode {
         int mostPopular = 1;
         int topRated = 2;
+    }
+
+    public static String IMG_BASE_URL = "http://image.tmdb.org/t/p/";
+
+    public String getImageUrl(String size, String path) {
+        return IMG_BASE_URL.concat(size).concat(path);
     }
 
     public interface SupportedImageSize {
