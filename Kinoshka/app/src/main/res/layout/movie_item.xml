@@ -17,6 +17,5 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/cd_poster"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_image"
         app:imageUrl="@{movie.posterUrlW342}" />
 </layout>

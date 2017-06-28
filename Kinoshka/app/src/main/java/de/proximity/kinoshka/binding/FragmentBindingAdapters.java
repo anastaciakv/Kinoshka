@@ -43,7 +43,6 @@ public class FragmentBindingAdapters {
         Picasso.with(fragment.getContext())
                 .load(url)
                 .error(ContextCompat.getDrawable(fragment.getContext(), R.drawable.ic_image))
-                .placeholder(ContextCompat.getDrawable(fragment.getContext(), R.drawable.ic_image))
                 .into(imageView);
     }
 }

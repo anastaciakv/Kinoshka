@@ -62,8 +62,8 @@ public class MovieDetailsFragment extends LifecycleFragment implements Injectabl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false, dataBindingComponent);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false, dataBindingComponent);
         return binding.getRoot();
     }
 
