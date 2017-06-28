@@ -12,12 +12,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.proximity.kinoshka.data.MovieTask;
-import de.proximity.kinoshka.data.remote.MovieTaskImpl;
 import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.MovieListResponse;
 
 public class MovieListViewModel extends ViewModel {
-    private final MovieTaskImpl movieTask;
+    private final MovieTask movieTask;
     MutableLiveData<List<Movie>> movies = new MutableLiveData<>();
     private MovieTask.MovieTaskCallback movieTaskCallback;
     public ObservableBoolean isLoading = new ObservableBoolean(false);
@@ -27,7 +26,7 @@ public class MovieListViewModel extends ViewModel {
     int currentSortMode;
 
     @Inject
-    public MovieListViewModel(MovieTaskImpl task) {
+    public MovieListViewModel(MovieTask task) {
         this.movieTask = task;
         currentSortMode = Movie.SortMode.mostPopular;
         fetchMovies();

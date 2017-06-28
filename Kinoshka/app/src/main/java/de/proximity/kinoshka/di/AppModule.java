@@ -4,7 +4,6 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -13,12 +12,12 @@ import dagger.Module;
 import dagger.Provides;
 import de.proximity.kinoshka.BuildConfig;
 import de.proximity.kinoshka.MyApplication;
+import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.data.remote.ApiClient;
+import de.proximity.kinoshka.data.remote.MovieTaskImpl;
 import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -33,23 +32,20 @@ public class AppModule {
                 .readTimeout(1, TimeUnit.MINUTES)
                 .connectTimeout(1, TimeUnit.MINUTES);
 
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-                HttpUrl originalHttpUrl = original.url();
+        httpClient.addInterceptor(chain -> {
+            Request original = chain.request();
+            HttpUrl originalHttpUrl = original.url();
 
-                HttpUrl url = originalHttpUrl.newBuilder()
-                        .addQueryParameter("api_key", MyApplication.THE_MOVIE_DB_API_KEY)
-                        .build();
+            HttpUrl url = originalHttpUrl.newBuilder()
+                    .addQueryParameter("api_key", MyApplication.THE_MOVIE_DB_API_KEY)
+                    .build();
 
-                // Request customization: add request headers
-                Request.Builder requestBuilder = original.newBuilder()
-                        .url(url);
+            // Request customization: add request headers
+            Request.Builder requestBuilder = original.newBuilder()
+                    .url(url);
 
-                Request request = requestBuilder.build();
-                return chain.proceed(request);
-            }
+            Request request = requestBuilder.build();
+            return chain.proceed(request);
         });
 
         if (BuildConfig.DEBUG)
@@ -73,10 +69,9 @@ public class AppModule {
         httpClient.addInterceptor(logging);
     }
 
-    public static String IMG_BASE_URL = "http://image.tmdb.org/t/p/";
-
-
-    public static String getImageUrl(String size, String path) {
-        return IMG_BASE_URL.concat(size).concat(path);
+    @Singleton
+    @Provides
+    public MovieTask providesMovieTask(ApiClient apiClient) {
+        return new MovieTaskImpl(apiClient);
     }
 }
