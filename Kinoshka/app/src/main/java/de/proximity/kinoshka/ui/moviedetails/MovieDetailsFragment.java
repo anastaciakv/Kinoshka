@@ -66,4 +66,7 @@ public class MovieDetailsFragment extends LifecycleFragment implements Injectabl
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         return binding.getRoot();
     }
+
+
 }
+

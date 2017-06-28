@@ -30,6 +30,10 @@ public class NavigationController {
 
     public void navigateToMovieDetails(Movie movie) {
         MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(movie);
-        fragmentManager.beginTransaction().replace(containerId, fragment).addToBackStack(null).commit();
+
+        fragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(containerId, fragment)
+                .commit();
     }
 }

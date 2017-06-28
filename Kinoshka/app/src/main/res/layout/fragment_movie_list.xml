@@ -19,6 +19,7 @@
             visibleGone="@{viewmodel.showList}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="2dp"
             tools:listitem="@layout/movie_item" />
 
         <TextView

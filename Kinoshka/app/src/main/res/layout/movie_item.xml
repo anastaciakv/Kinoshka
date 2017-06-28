@@ -13,10 +13,10 @@
         android:id="@+id/ivPoster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="2dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/cd_poster"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_image"
-        android:transitionName="@string/transition_poster"
         app:imageUrl="@{movie.posterUrlW342}" />
 </layout>

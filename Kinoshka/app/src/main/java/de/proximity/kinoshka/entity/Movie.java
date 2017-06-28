@@ -45,6 +45,10 @@ public class Movie {
         return IMG_BASE_URL.concat(size).concat(path);
     }
 
+    public String getBigPosterUrl() {
+        return getImageUrl(SupportedImageSize.w780, backdropPath == null ? posterPath : backdropPath);
+    }
+
     public interface SupportedImageSize {
         String w92 = "w92";
         String w154 = "w154";

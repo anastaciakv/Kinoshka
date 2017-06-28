@@ -75,9 +75,8 @@ public class MovieListFragment extends LifecycleFragment implements Injectable {
                 viewModel.onListScrolled(visibleItemCount, totalItemCount, firstVisibleItemPosition);
             }
         });
-        adapter = new MovieGridAdapter(dataBindingComponent, movie -> {
-            navigationController.navigateToMovieDetails(movie);
-        });
+        adapter = new MovieGridAdapter(dataBindingComponent,
+                movie -> navigationController.navigateToMovieDetails(movie));
         binding.rvMovieList.setAdapter(adapter);
     }
 
