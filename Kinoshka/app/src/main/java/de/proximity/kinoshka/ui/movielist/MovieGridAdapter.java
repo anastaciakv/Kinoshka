@@ -33,8 +33,8 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
     }
 
     public void update(List<Movie> movieList) {
-        if (movieList.isEmpty()) this.movies.clear();
-        this.movies.addAll(movieList);
+        movies.clear();
+        movies.addAll(movieList);
         notifyDataSetChanged();
     }
 

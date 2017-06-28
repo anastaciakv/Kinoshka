@@ -81,11 +81,19 @@ dependencies {
     //unit tests; mocking objects
     testCompile "junit:junit:$rootProject.junitVersion"
     testCompile "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    testCompile ("android.arch.core:core-testing:$rootProject.archVersion", {
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    })
 
     //ui tests; mocking objects
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    androidTestCompile("android.arch.core:core-testing:$rootProject.archVersion", {
+    })
+
 }
 
 task fullCoverageReport(type: JacocoReport) {

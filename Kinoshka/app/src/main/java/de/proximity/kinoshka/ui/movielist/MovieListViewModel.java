@@ -22,7 +22,7 @@ public class MovieListViewModel extends ViewModel {
     public ObservableBoolean isLoading = new ObservableBoolean(false);
     public ObservableBoolean showList = new ObservableBoolean(true);
     int currentPage = 1;
-    private int totalPages = 1;
+     int totalPages = 1;
     int currentSortMode;
 
     @Inject
@@ -32,7 +32,7 @@ public class MovieListViewModel extends ViewModel {
         fetchMovies();
     }
 
-    private void fetchMovies() {
+    void fetchMovies() {
         isLoading.set(true);
         movieTask.fetchMovies(currentSortMode, currentPage, getMovieTaskCallback());
     }
@@ -95,7 +95,7 @@ public class MovieListViewModel extends ViewModel {
         }
     }
 
-    private boolean isLastPage() {
+     boolean isLastPage() {
         return currentPage == totalPages;
     }
 }

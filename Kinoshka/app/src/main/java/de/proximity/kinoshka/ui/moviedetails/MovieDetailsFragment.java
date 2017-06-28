@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class MovieDetailsFragment extends LifecycleFragment implements Injectabl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false, dataBindingComponent);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         return binding.getRoot();
     }
 }
