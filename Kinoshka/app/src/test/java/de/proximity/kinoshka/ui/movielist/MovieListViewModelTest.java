@@ -15,14 +15,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import de.proximity.kinoshka.data.MovieTask;
+import de.proximity.kinoshka.data.remote.ServerResponse;
 import de.proximity.kinoshka.entity.Movie;
-import de.proximity.kinoshka.entity.MovieListResponse;
 import de.proximity.kinoshka.movielist.testutils.TestUtils;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.times;
@@ -47,7 +48,7 @@ public class MovieListViewModelTest {
 
     @Test
     public void when_VMcreated_then_fetchMovies() throws Exception {
-        verify(movieTask).fetchMovies(anyInt(), anyInt(), any(MovieTask.MovieTaskCallback.class));
+        verify(movieTask).fetchMovies(anyString(), anyInt(), any(MovieTask.MovieTaskCallback.class));
     }
 
     @Test
@@ -68,7 +69,7 @@ public class MovieListViewModelTest {
 
     @Test
     public void when_fetchMoviesSuccess_then_LoadingFalseShowListTrue() throws Exception {
-        verify(movieTask).fetchMovies(anyInt(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        verify(movieTask).fetchMovies(anyString(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
         movieTaskCallbackArgumentCaptor.getValue().onMovieListFetched(getPopularMovies());
 
         assertFalse(viewModel.isLoading.get());
@@ -77,7 +78,7 @@ public class MovieListViewModelTest {
 
     @Test
     public void when_fetchMoviesFail_then_IsLoadingFalseShowListFalse() throws Exception {
-        verify(movieTask).fetchMovies(anyInt(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        verify(movieTask).fetchMovies(anyString(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
         movieTaskCallbackArgumentCaptor.getValue().onMovieListFetchError();
 
         assertFalse(viewModel.isLoading.get());
@@ -86,9 +87,9 @@ public class MovieListViewModelTest {
 
     @Test
     public void given_someMoviesAlreadyFetched_when_fetchMoviesFail_then_isLoadingFalseShowListTrue() throws Exception {
-        viewModel.movies.setValue(getPopularMovies().movies);
+        viewModel.movies.setValue(getPopularMovies().items);
         viewModel.fetchMovies();
-        verify(movieTask, times(2)).fetchMovies(anyInt(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        verify(movieTask, times(2)).fetchMovies(anyString(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
         movieTaskCallbackArgumentCaptor.getValue().onMovieListFetchError();
 
         assertFalse(viewModel.isLoading.get());
@@ -97,7 +98,7 @@ public class MovieListViewModelTest {
 
     @Test
     public void given_currentSortByPopular_when_sortByMostPopular_then_doNothing() throws Exception {
-        verify(movieTask).fetchMovies(anyInt(), anyInt(), any(MovieTask.MovieTaskCallback.class));
+        verify(movieTask).fetchMovies(anyString(), anyInt(), any(MovieTask.MovieTaskCallback.class));
         viewModel.currentSortMode = Movie.SortMode.mostPopular;
         viewModel.onSortByMostPopular();
         verifyZeroInteractions(movieTask);
@@ -105,7 +106,7 @@ public class MovieListViewModelTest {
 
     @Test
     public void given_currentSortByTopRated_when_sortByTopRated_then_doNothing() throws Exception {
-        verify(movieTask).fetchMovies(anyInt(), anyInt(), any(MovieTask.MovieTaskCallback.class));
+        verify(movieTask).fetchMovies(anyString(), anyInt(), any(MovieTask.MovieTaskCallback.class));
         viewModel.currentSortMode = Movie.SortMode.topRated;
         viewModel.onSortByTopRated();
         verifyZeroInteractions(movieTask);
@@ -114,7 +115,7 @@ public class MovieListViewModelTest {
     @Test
     public void given_currentSortByPopular_when_sortByTopRated_then_UpdateMovieList() throws Exception {
         viewModel.currentSortMode = Movie.SortMode.mostPopular;
-        viewModel.movies.setValue(getPopularMovies().movies);
+        viewModel.movies.setValue(getPopularMovies().items);
         viewModel.onSortByTopRated();
 
         assertTrue(viewModel.movies.getValue().isEmpty());
@@ -123,7 +124,7 @@ public class MovieListViewModelTest {
 
     @Test
     public void given_currentSortByTopRated_when_sortByPopular_then_UpdateMovieList() throws Exception {
-        viewModel.movies.setValue(getPopularMovies().movies);
+        viewModel.movies.setValue(getPopularMovies().items);
         viewModel.currentSortMode = Movie.SortMode.topRated;
         viewModel.onSortByMostPopular();
 
@@ -174,8 +175,8 @@ public class MovieListViewModelTest {
         assertTrue(viewModel.isLastPage());
     }
 
-    private MovieListResponse getPopularMovies() {
+    private ServerResponse<Movie> getPopularMovies() {
         String responseJson = TestUtils.loadJSONFromFile(this, "popular-movie-list.json");
-        return new Gson().fromJson(responseJson, MovieListResponse.class);
+        return new Gson().fromJson(responseJson, ServerResponse.class);
     }
 }

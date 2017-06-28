@@ -35,8 +35,8 @@ public class Movie {
     }
 
     public interface SortMode {
-        int mostPopular = 1;
-        int topRated = 2;
+        String mostPopular = "popular";
+        String topRated = "top_rated";
     }
 
     public static String IMG_BASE_URL = "http://image.tmdb.org/t/p/";

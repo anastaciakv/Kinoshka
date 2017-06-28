@@ -12,8 +12,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.proximity.kinoshka.data.MovieTask;
+import de.proximity.kinoshka.data.remote.ServerResponse;
 import de.proximity.kinoshka.entity.Movie;
-import de.proximity.kinoshka.entity.MovieListResponse;
 
 public class MovieListViewModel extends ViewModel {
     private final MovieTask movieTask;
@@ -22,8 +22,8 @@ public class MovieListViewModel extends ViewModel {
     public ObservableBoolean isLoading = new ObservableBoolean(false);
     public ObservableBoolean showList = new ObservableBoolean(true);
     int currentPage = 1;
-     int totalPages = 1;
-    int currentSortMode;
+    int totalPages = 1;
+    String currentSortMode;
 
     @Inject
     public MovieListViewModel(MovieTask task) {
@@ -42,11 +42,11 @@ public class MovieListViewModel extends ViewModel {
             movieTaskCallback = new MovieTask.MovieTaskCallback() {
 
                 @Override
-                public void onMovieListFetched(MovieListResponse movieListResponse) {
+                public void onMovieListFetched(ServerResponse<Movie> movieListResponse) {
                     isLoading.set(false);
                     List<Movie> oldList = movies.getValue();
                     if (oldList == null) oldList = new ArrayList<>();
-                    oldList.addAll(movieListResponse.movies);
+                    oldList.addAll(movieListResponse.items);
                     movies.setValue(oldList);
                     totalPages = movieListResponse.totalPages;
                     showList.set(true);
@@ -73,7 +73,7 @@ public class MovieListViewModel extends ViewModel {
         changeSortModeAndUpdate(Movie.SortMode.topRated);
     }
 
-    private void changeSortModeAndUpdate(int sortMode) {
+    private void changeSortModeAndUpdate(String sortMode) {
         currentSortMode = sortMode;
         currentPage = 1;
         movies.setValue(new ArrayList<>());
@@ -95,7 +95,7 @@ public class MovieListViewModel extends ViewModel {
         }
     }
 
-     boolean isLastPage() {
+    boolean isLastPage() {
         return currentPage == totalPages;
     }
 }
