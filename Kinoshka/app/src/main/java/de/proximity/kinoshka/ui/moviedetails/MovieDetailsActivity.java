@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.binding.ContextDataBindingComponent;
-import de.proandroid.databinding.DataBindingComponenteDetailsBinding;
+import de.proximity.kinoshka.databinding.ActivityMovieDetailsBinding;
 import de.proximity.kinoshka.di.Injectable;
 import de.proximity.kinoshka.entity.Movie;
 
