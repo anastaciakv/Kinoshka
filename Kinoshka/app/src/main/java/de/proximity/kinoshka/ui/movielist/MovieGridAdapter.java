@@ -1,10 +1,10 @@
 package de.proximity.kinoshka.ui.movielist;
 
 
-import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -16,19 +16,20 @@ import de.proximity.kinoshka.entity.Movie;
 
 public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> {
 
-    private final android.databinding.DataBindingComponent dataBindingComponent;
 
+    private final android.databinding.DataBindingComponent bindingComponent;
 
     public interface MovieClickCallback {
-        void onClick(Movie movie);
+        void onClick(Movie movie, View view);
     }
 
     final private MovieClickCallback callback;
     List<Movie> movies;
 
-    public MovieGridAdapter(DataBindingComponent dataBindingComponent, MovieClickCallback callback) {
+    public MovieGridAdapter(android.databinding.DataBindingComponent bindingComponent, MovieClickCallback callback) {
+        this.bindingComponent = bindingComponent;
         this.callback = callback;
-        this.dataBindingComponent = dataBindingComponent;
+
         movies = new ArrayList<>();
     }
 
@@ -41,11 +42,11 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MovieItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.movie_item, parent, false, dataBindingComponent);
+                R.layout.movie_item, parent, false, bindingComponent);
         binding.getRoot().setOnClickListener(v -> {
             Movie movie = binding.getMovie();
             if (movie != null && callback != null) {
-                callback.onClick(movie);
+                callback.onClick(movie, binding.ivPoster);
             }
         });
         return new MovieViewHolder(binding);

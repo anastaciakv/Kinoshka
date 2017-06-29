@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Kinoshka</string>
-    <string name="empty_movie_list_error_msg">Ooops! No movies available</string>
+    <string name="empty_movie_list_error_msg">Something went wrong, no movies available</string>
 
     <string name="msg_no_movie_to_display">Error! No movie to display!</string>
     <string name="most_popular">Most popular</string>
@@ -10,4 +10,5 @@
     <!--Util strings-->
     <string name="cd_poster" translatable="false">poster</string>
     <string name="transition_poster" translatable="false">transition_poster</string>
+    <!---->
 </resources>
