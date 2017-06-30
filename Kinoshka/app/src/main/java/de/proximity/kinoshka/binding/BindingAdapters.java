@@ -17,7 +17,13 @@
 package de.proximity.kinoshka.binding;
 
 import android.databinding.BindingAdapter;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
+import de.proximity.kinoshka.R;
 
 /**
  * Data Binding adapters specific to the app.
@@ -26,5 +32,13 @@ public class BindingAdapters {
     @BindingAdapter("visibleGone")
     public static void showHide(View view, boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @BindingAdapter("imageUrl")
+    public static void bindImage(ImageView imageView, String url) {
+        Picasso.with(imageView.getContext())
+                .load(url).noFade()
+                .error(ContextCompat.getDrawable(imageView.getContext(), R.drawable.ic_image))
+                .into(imageView);
     }
 }

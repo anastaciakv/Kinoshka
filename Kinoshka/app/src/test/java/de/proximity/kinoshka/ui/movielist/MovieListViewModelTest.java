@@ -70,7 +70,7 @@ public class MovieListViewModelTest {
     @Test
     public void when_fetchMoviesSuccess_then_LoadingFalseShowListTrue() throws Exception {
         verify(movieTask).fetchMovies(anyString(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
-        movieTaskCallbackArgumentCaptor.getValue().onMovieListFetched(getPopularMovies());
+        movieTaskCallbackArgumentCaptor.getValue().onSuccess(getPopularMovies());
 
         assertFalse(viewModel.isLoading.get());
         assertTrue(viewModel.showList.get());
@@ -79,7 +79,7 @@ public class MovieListViewModelTest {
     @Test
     public void when_fetchMoviesFail_then_IsLoadingFalseShowListFalse() throws Exception {
         verify(movieTask).fetchMovies(anyString(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
-        movieTaskCallbackArgumentCaptor.getValue().onMovieListFetchError();
+        movieTaskCallbackArgumentCaptor.getValue().onError();
 
         assertFalse(viewModel.isLoading.get());
         assertFalse(viewModel.showList.get());
@@ -90,7 +90,7 @@ public class MovieListViewModelTest {
         viewModel.movies.setValue(getPopularMovies().items);
         viewModel.fetchMovies();
         verify(movieTask, times(2)).fetchMovies(anyString(), anyInt(), movieTaskCallbackArgumentCaptor.capture());
-        movieTaskCallbackArgumentCaptor.getValue().onMovieListFetchError();
+        movieTaskCallbackArgumentCaptor.getValue().onError();
 
         assertFalse(viewModel.isLoading.get());
         assertTrue(viewModel.showList.get());

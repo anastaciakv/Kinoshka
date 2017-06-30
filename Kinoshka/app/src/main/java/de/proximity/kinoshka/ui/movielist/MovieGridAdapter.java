@@ -2,6 +2,7 @@ package de.proximity.kinoshka.ui.movielist;
 
 
 import android.databinding.DataBindingUtil;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MovieItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.movie_item, parent, false, bindingComponent);
+                R.layout.movie_item, parent, false);
         binding.getRoot().setOnClickListener(v -> {
             Movie movie = binding.getMovie();
             if (movie != null && callback != null) {
@@ -55,6 +56,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         holder.bind(movies.get(position));
+        ViewCompat.setTransitionName(holder.binding.ivPoster, String.valueOf(movies.get(position).id));
         holder.binding.executePendingBindings();
     }
 

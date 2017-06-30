@@ -17,6 +17,5 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/cd_poster"
         android:scaleType="centerCrop"
-        android:transitionName="@string/transition_poster"
         app:imageUrl="@{movie.posterUrlW342}" />
 </layout>

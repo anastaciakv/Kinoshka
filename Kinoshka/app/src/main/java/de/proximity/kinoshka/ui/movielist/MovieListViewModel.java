@@ -18,7 +18,7 @@ import de.proximity.kinoshka.entity.Movie;
 public class MovieListViewModel extends ViewModel {
     private final MovieTask movieTask;
     MutableLiveData<List<Movie>> movies = new MutableLiveData<>();
-    private MovieTask.MovieTaskCallback movieTaskCallback;
+    private MovieTask.MovieTaskCallback<Movie> movieTaskCallback;
     public ObservableBoolean isLoading = new ObservableBoolean(false);
     public ObservableBoolean showList = new ObservableBoolean(true);
     int currentPage = 1;
@@ -39,21 +39,20 @@ public class MovieListViewModel extends ViewModel {
 
     public MovieTask.MovieTaskCallback getMovieTaskCallback() {
         if (movieTaskCallback == null) {
-            movieTaskCallback = new MovieTask.MovieTaskCallback() {
-
+            movieTaskCallback = new MovieTask.MovieTaskCallback<Movie>() {
                 @Override
-                public void onMovieListFetched(ServerResponse<Movie> movieListResponse) {
+                public void onSuccess(ServerResponse<Movie> serverResponse) {
                     isLoading.set(false);
                     List<Movie> oldList = movies.getValue();
                     if (oldList == null) oldList = new ArrayList<>();
-                    oldList.addAll(movieListResponse.items);
+                    oldList.addAll(serverResponse.items);
                     movies.setValue(oldList);
-                    totalPages = movieListResponse.totalPages;
+                    totalPages = serverResponse.totalPages;
                     showList.set(true);
                 }
 
                 @Override
-                public void onMovieListFetchError() {
+                public void onError() {
                     isLoading.set(false);
                     showList.set(movies.getValue() != null && !movies.getValue().isEmpty());
                 }

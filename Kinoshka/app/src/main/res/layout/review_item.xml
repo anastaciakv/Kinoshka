@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="review"
+            type="de.proximity.kinoshka.entity.Review" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{review.author}"
+            android:textSize="@dimen/description_text_size"
+            android:textStyle="bold"
+            tools:text="Mike V." />
+
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{review.content}"
+            android:textSize="@dimen/description_text_size"
+            tools:text="I think it was a wonderful movie!" />
+    </LinearLayout>
+</layout>

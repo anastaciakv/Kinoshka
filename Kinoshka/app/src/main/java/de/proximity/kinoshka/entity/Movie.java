@@ -5,6 +5,7 @@ import org.parceler.Parcel;
 @Parcel
 public class Movie {
     public static final String ITEM_KEY = "MOVIE_ITEM";
+    public static final String TRANSITION_NAME_KEY = "TRANSITION_NAME";
     public int voteCount;
     public int id;
     public boolean video;

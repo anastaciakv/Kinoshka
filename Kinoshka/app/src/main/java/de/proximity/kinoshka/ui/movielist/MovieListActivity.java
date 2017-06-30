@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,6 @@ import org.parceler.Parcels;
 import javax.inject.Inject;
 
 import de.proximity.kinoshka.R;
-import de.proximity.kinoshka.binding.ContextDataBindingComponent;
 import de.proximity.kinoshka.databinding.ActivityMovieListBinding;
 import de.proximity.kinoshka.di.Injectable;
 import de.proximity.kinoshka.entity.Movie;
@@ -36,13 +36,13 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
     private MovieListViewModel viewModel;
     ActivityMovieListBinding binding;
     MovieGridAdapter adapter;
-    private android.databinding.DataBindingComponent dataBindingComponent;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieListViewModel.class);
-        dataBindingComponent = new ContextDataBindingComponent(this);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_list);
         binding.setViewmodel(viewModel);
         initGrid();
@@ -65,7 +65,7 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
                 viewModel.onListScrolled(visibleItemCount, totalItemCount, firstVisibleItemPosition);
             }
         });
-        adapter = new MovieGridAdapter(dataBindingComponent, this::navigateToMovieDetails);
+        adapter = new MovieGridAdapter(null, this::navigateToMovieDetails);
         binding.rvMovieList.setAdapter(adapter);
     }
 
@@ -74,12 +74,15 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
 
         Bundle extras = new Bundle();
         extras.putParcelable(Movie.ITEM_KEY, Parcels.wrap(movie));
+        extras.putString(Movie.TRANSITION_NAME_KEY, ViewCompat.getTransitionName(v));
         intent.putExtras(extras);
 
         Bundle bundle = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            bundle = ActivityOptions.makeSceneTransitionAnimation(this, v, v.getTransitionName()).toBundle();
+            bundle = ActivityOptions.makeSceneTransitionAnimation(this, v,
+                    v.getTransitionName()).toBundle();
         }
+
         startActivity(intent, bundle);
     }
 
