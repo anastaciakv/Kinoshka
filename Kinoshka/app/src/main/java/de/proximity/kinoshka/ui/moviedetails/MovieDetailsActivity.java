@@ -69,7 +69,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
         binding.setCallback(this);
         binding.setMovie(movie);
         binding.setViewModel(viewModel);
-
+        binding.rvReviewList.setHasFixedSize(true);
         binding.rvReviewList.setAdapter(reviewAdapter);
         binding.rvReviewList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 

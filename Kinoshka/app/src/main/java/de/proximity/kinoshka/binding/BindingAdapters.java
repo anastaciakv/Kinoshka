@@ -16,6 +16,8 @@
 
 package de.proximity.kinoshka.binding;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.databinding.BindingAdapter;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -33,6 +35,46 @@ public class BindingAdapters {
     @BindingAdapter("visibleGone")
     public static void showHide(View view, boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @BindingAdapter("fadeVisibleGone")
+    public static void setFadeVisible(View view, boolean visible) {
+        animateVisibility(view, visible, View.GONE);
+    }
+
+    @BindingAdapter("fadeVisibleInvisible")
+    public static void visibleInvisible(View view, boolean visible) {
+        animateVisibility(view, visible, View.INVISIBLE);
+    }
+
+    private static void animateVisibility(View view, boolean visible, int hideVisibility) {
+        if (view.getTag() == null) {
+            view.setTag(true);
+            view.setVisibility(visible ? View.VISIBLE : hideVisibility);
+        } else {
+            view.animate().cancel();
+            if (visible) {
+                view.setVisibility(View.VISIBLE);
+                // view.setAlpha(0);
+                view.animate().setDuration(300).alpha(1).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        view.setAlpha(1);
+                    }
+                });
+
+            } else {
+                view.setAlpha(1);
+                view.setVisibility(View.VISIBLE);
+                view.animate().setDuration(300).alpha(0).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        view.setAlpha(0);
+                        view.setVisibility(hideVisibility);
+                    }
+                });
+            }
+        }
     }
 
     @BindingAdapter("imageUrl")

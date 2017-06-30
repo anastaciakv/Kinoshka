@@ -7,9 +7,13 @@
         <variable
             name="review"
             type="de.proximity.kinoshka.entity.Review" />
+
+        <variable
+            name="showFull"
+            type="android.databinding.ObservableBoolean" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/text_margin"
@@ -26,11 +30,27 @@
             tools:text="Mike V." />
 
         <TextView
-            android:id="@+id/tvContent"
+            android:id="@+id/tvContentShort"
+            fadeVisibleInvisible="@{!showFull}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvAuthor"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{review.content}"
             android:textSize="@dimen/description_text_size"
-            tools:text="I think it was a wonderful movie!" />
-    </LinearLayout>
+            tools:text="I think it was a wonderful movie!  I think it was a wonderful movie! I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!" />
+
+        <TextView
+            android:id="@+id/tvContentFull"
+            fadeVisibleGone="@{showFull}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvAuthor"
+            android:ellipsize="end"
+            android:text="@{review.content}"
+            android:textSize="@dimen/description_text_size"
+            tools:text="I think it was a wonderful movie!  I think it was a wonderful movie! I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!" />
+
+    </RelativeLayout>
 </layout>
