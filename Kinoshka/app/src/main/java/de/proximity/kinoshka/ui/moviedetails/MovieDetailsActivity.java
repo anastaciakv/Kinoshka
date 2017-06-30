@@ -77,16 +77,22 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            closeScreen();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void closeScreen() {
+//        calling finish() fixes crash when using shared element transition and pressing the hardware back button
+        //but removes the reversed shared element transition
+        finish();
+//        supportFinishAfterTransition();
+    }
+
     @Override
     public void onBackPressed() {
-        //fixes crash when using shared element transition and pressing the hardware back button
-        finish();
+        closeScreen();
     }
 
     @Override
