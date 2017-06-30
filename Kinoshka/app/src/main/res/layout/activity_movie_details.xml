@@ -12,6 +12,10 @@
         <variable
             name="movie"
             type="de.proximity.kinoshka.entity.Movie" />
+
+        <variable
+            name="callback"
+            type="de.proximity.kinoshka.binding.ImageReadyCallback" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -45,6 +49,7 @@
                     android:contentDescription="@string/cd_poster"
                     android:minHeight="@dimen/app_bar_height"
                     android:scaleType="centerCrop"
+                    app:callback="@{callback}"
                     app:imageUrl="@{movie.bigPosterUrl}"
                     app:layout_collapseMode="parallax" />
 

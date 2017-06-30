@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import de.proximity.kinoshka.R;
@@ -36,9 +37,28 @@ public class BindingAdapters {
 
     @BindingAdapter("imageUrl")
     public static void bindImage(ImageView imageView, String url) {
+        loadImage(imageView, url, null);
+    }
+
+    @BindingAdapter({"imageUrl", "callback"})
+    public static void bindImage(ImageView imageView, String url, ImageReadyCallback callback) {
+        loadImage(imageView, url, callback);
+    }
+
+    private static void loadImage(ImageView imageView, String url, ImageReadyCallback callback) {
         Picasso.with(imageView.getContext())
                 .load(url).noFade()
                 .error(ContextCompat.getDrawable(imageView.getContext(), R.drawable.ic_image))
-                .into(imageView);
+                .into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        if (callback != null) callback.onImageReady();
+                    }
+
+                    @Override
+                    public void onError() {
+                        if (callback != null) callback.onImageReady();
+                    }
+                });
     }
 }
