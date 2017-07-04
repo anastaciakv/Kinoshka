@@ -103,4 +103,10 @@ public class BindingAdapters {
                     }
                 });
     }
+
+    @BindingAdapter("favorite")
+    public static void setFavoriteState(ImageView view, boolean isFavorite) {
+
+        view.setImageResource(isFavorite ? R.drawable.ic_stars_selected : R.drawable.ic_stars);
+    }
 }

@@ -9,5 +9,6 @@
 
     <!--Util strings-->
     <string name="cd_poster" translatable="false">poster</string>
+    <string name="favorites">Favorites</string>
     <!---->
 </resources>

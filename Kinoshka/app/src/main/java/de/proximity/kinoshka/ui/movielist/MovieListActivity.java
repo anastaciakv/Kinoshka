@@ -113,6 +113,9 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
                 viewModel.onSortByTopRated();
                 item.setChecked(true);
                 return true;
+            case R.id.menu_favorites:
+                viewModel.onFavoritesClicked();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

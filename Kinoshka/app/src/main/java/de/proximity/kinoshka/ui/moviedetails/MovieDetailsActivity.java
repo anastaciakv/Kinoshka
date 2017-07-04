@@ -85,9 +85,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
     }
 
     private void closeScreen() {
-//        calling finish() fixes crash when using shared element transition and pressing the hardware back button
-        //but removes the reversed shared element transition
-//        finish();
         supportFinishAfterTransition();
     }
 

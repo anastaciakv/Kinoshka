@@ -10,7 +10,7 @@ import dagger.android.AndroidInjectionModule;
 import de.proximity.kinoshka.MyApplication;
 
 @Singleton
-@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityModule.class})
+@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityModule.class, ProviderModule.class})
 public interface AppComponent {
 
     @Component.Builder

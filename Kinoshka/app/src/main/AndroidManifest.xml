@@ -27,6 +27,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.proximity.kinoshka.ui.movielist.MovieListActivity" />
         </activity>
+
+        <provider
+            android:name=".provider.KinoshkaContentProvider"
+            android:authorities="de.proximity.kinoshka"
+            android:exported="false" />
     </application>
 
 </manifest>

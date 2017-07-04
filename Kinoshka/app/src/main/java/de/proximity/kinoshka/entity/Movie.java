@@ -1,19 +1,49 @@
 package de.proximity.kinoshka.entity;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.content.ContentValues;
+import android.provider.BaseColumns;
+
 import org.parceler.Parcel;
 
+import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_BACKDROP_PATH;
+import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_ID;
+import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_ORIGINAL_TITLE;
+import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_OVERVIEW;
+import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_POSTER_PATH;
+import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_RELEASE_DATE;
+import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_VOTE_AVERAGE;
+
+@Entity(tableName = Movie.Table.TABLE_NAME)
 @Parcel
 public class Movie {
+    public interface Table {
+        String TABLE_NAME = "movies";
+        String COLUMN_ID = BaseColumns._ID;
+        String COLUMN_ORIGINAL_TITLE = "originalTitle";
+        String COLUMN_POSTER_PATH = "posterPath";
+        String COLUMN_BACKDROP_PATH = "backdropPath";
+        String COLUMN_RELEASE_DATE = "releaseDate";
+        String COLUMN_OVERVIEW = "overview";
+        String COLUMN_VOTE_AVERAGE = "voteAverage";
+    }
+
     public static final String ITEM_KEY = "MOVIE_ITEM";
     public static final String TRANSITION_NAME_KEY = "TRANSITION_NAME";
+
+    @PrimaryKey
+    @ColumnInfo(index = true, name = COLUMN_ID)
+    public long id;
     public int voteCount;
-    public int id;
     public boolean video;
     public double voteAverage;
     public String title;
     public double popularity;
     public String posterPath;
     public String originalLanguage;
+    // @ColumnInfo(name = COLUMN_ORIGINAL_TITLE)
     public String originalTitle;
     public String backdropPath;
     public boolean adult;
@@ -23,12 +53,48 @@ public class Movie {
     public Movie() {
     }
 
-    public String getPosterUrlW342() {
-        return getImageUrl(SupportedImageSize.w342, posterPath);
+    /**
+     * Create a new {@link Movie} from the specified {@link ContentValues}.
+     *
+     * @param values A {@link ContentValues} of a movie.
+     * @return A newly created {@link Movie} instance.
+     */
+    public static Movie fromContentValues(ContentValues values) {
+        final Movie movie = new Movie();
+        if (values.containsKey(COLUMN_ID)) {
+            movie.id = values.getAsLong(COLUMN_ID);
+        }
+        if (values.containsKey(COLUMN_VOTE_AVERAGE)) {
+            movie.voteAverage = values.getAsDouble(COLUMN_VOTE_AVERAGE);
+        }
+        if (values.containsKey(COLUMN_ORIGINAL_TITLE)) {
+            movie.originalTitle = values.getAsString(COLUMN_ORIGINAL_TITLE);
+        }
+        if (values.containsKey(COLUMN_BACKDROP_PATH)) {
+            movie.backdropPath = values.getAsString(COLUMN_BACKDROP_PATH);
+        }
+        if (values.containsKey(COLUMN_POSTER_PATH)) {
+            movie.posterPath = values.getAsString(COLUMN_POSTER_PATH);
+        }
+        if (values.containsKey(COLUMN_OVERVIEW)) {
+            movie.overview = values.getAsString(COLUMN_OVERVIEW);
+        }
+        if (values.containsKey(COLUMN_RELEASE_DATE)) {
+            movie.releaseDate = values.getAsString(COLUMN_RELEASE_DATE);
+        }
+        return movie;
     }
 
-    public String getPosterUrlW780() {
-        return getImageUrl(SupportedImageSize.w780, posterPath);
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ID, id);
+        values.put(COLUMN_ORIGINAL_TITLE, originalTitle);
+        values.put(COLUMN_BACKDROP_PATH, backdropPath);
+        values.put(COLUMN_POSTER_PATH, posterPath);
+        values.put(COLUMN_OVERVIEW, overview);
+        values.put(COLUMN_VOTE_AVERAGE, voteAverage);
+        values.put(COLUMN_RELEASE_DATE, releaseDate);
+        return values;
     }
 
     public String getVoteAverageStr() {
@@ -48,6 +114,10 @@ public class Movie {
 
     public String getBigPosterUrl() {
         return getImageUrl(SupportedImageSize.w780, backdropPath == null ? posterPath : backdropPath);
+    }
+
+    public String getPosterUrlW342() {
+        return getImageUrl(SupportedImageSize.w342, posterPath);
     }
 
     public interface SupportedImageSize {

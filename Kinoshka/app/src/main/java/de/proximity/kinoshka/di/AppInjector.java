@@ -24,7 +24,7 @@ import dagger.android.AndroidInjection;
 import de.proximity.kinoshka.MyApplication;
 
 /**
- * Helper class to automatically inject fragments if they implement {@link Injectable}.
+ * Helper class to automatically inject activities if they implement {@link Injectable}.
  */
 public class AppInjector {
     private AppInjector() {

@@ -22,7 +22,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 public class MovieDetailsViewModelTest {
@@ -55,14 +56,14 @@ public class MovieDetailsViewModelTest {
     @Test
     public void when_setMovie_then_fetchReviews() throws Exception {
         viewModel.setMovie(movie);
-        verify(movieTask).fetchReviews(anyInt(), any(MovieTask.MovieTaskCallback.class));
+        verify(movieTask).fetchReviews(anyLong(), any(MovieTask.MovieTaskCallback.class));
     }
 
     @Test
     public void when_fetchReviewsSuccess_then_showReviews() throws Exception {
         viewModel.isReviewAvailable.set(false);
         viewModel.setMovie(movie);
-        verify(movieTask).fetchReviews(anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        verify(movieTask).fetchReviews(anyLong(), movieTaskCallbackArgumentCaptor.capture());
         List<Review> reviews = new ArrayList<>();
         reviews.add(new Review());
         ServerResponse<Review> response = new ServerResponse<>();
@@ -75,7 +76,7 @@ public class MovieDetailsViewModelTest {
     public void when_fetchReviewsSuccessButNoReviews_then_hideReviews() throws Exception {
         viewModel.isReviewAvailable.set(false);
         viewModel.setMovie(movie);
-        verify(movieTask).fetchReviews(anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        verify(movieTask).fetchReviews(anyLong(), movieTaskCallbackArgumentCaptor.capture());
         List<Review> reviews = new ArrayList<>();
         ServerResponse<Review> response = new ServerResponse<>();
         response.items = reviews;
@@ -87,7 +88,7 @@ public class MovieDetailsViewModelTest {
     public void when_fetchReviewsSuccessButReviewsNull_then_hideReviews() throws Exception {
         viewModel.isReviewAvailable.set(false);
         viewModel.setMovie(movie);
-        verify(movieTask).fetchReviews(anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        verify(movieTask).fetchReviews(anyLong(), movieTaskCallbackArgumentCaptor.capture());
 
         ServerResponse<Review> response = new ServerResponse<>();
         response.items = null;
@@ -99,10 +100,61 @@ public class MovieDetailsViewModelTest {
     public void when_fetchReviewsError_then_hideReviews() throws Exception {
         viewModel.isReviewAvailable.set(true);
         viewModel.setMovie(movie);
-        verify(movieTask).fetchReviews(anyInt(), movieTaskCallbackArgumentCaptor.capture());
+        verify(movieTask).fetchReviews(anyLong(), movieTaskCallbackArgumentCaptor.capture());
 
         movieTaskCallbackArgumentCaptor.getValue().onError();
         assertFalse(viewModel.isReviewAvailable.get());
     }
 
+    @Test
+    public void given_notFavorite_when_onFavoritesClicked_then_isFavoriteTrue() {
+        viewModel.isFavorite.set(false);
+        viewModel.onFavoritesClicked(null);
+        assertTrue(viewModel.isFavorite.get());
+    }
+
+    @Test
+    public void given_isFavorite_when_onFavoritesClicked_then_isFavoriteFalse() {
+        viewModel.isFavorite.set(true);
+        viewModel.onFavoritesClicked(null);
+        assertFalse(viewModel.isFavorite.get());
+    }
+
+    @Test
+    public void given_notFavorite_when_onFavoritesClicked_then_saveToFavorites() {
+        viewModel.setMovie(movie);
+        viewModel.isFavorite.set(false);
+        viewModel.onFavoritesClicked(null);
+        verify(movieTask).addToFavorites(movie);
+    }
+
+    @Test
+    public void given_isFavorite_when_onFavoritesClicked_then_removeFromFavorites() {
+        viewModel.setMovie(movie);
+        viewModel.isFavorite.set(true);
+        viewModel.onFavoritesClicked(null);
+        verify(movieTask).removeFromFavorites(movie);
+    }
+
+    @Test
+    public void when_setMovie_then_checkFavorites() {
+        viewModel.setMovie(movie);
+        verify(movieTask).checkIsFavorite(movie);
+    }
+
+    @Test
+    public void given_isFavorite_when_setMovie_then_markFavorite() {
+        viewModel.isFavorite.set(false);
+        doReturn(true).when(movieTask).checkIsFavorite(movie);
+        viewModel.setMovie(movie);
+        assertTrue(viewModel.isFavorite.get());
+    }
+
+    @Test
+    public void given_notFavorite_when_setMovie_then_markNotFavorite() {
+        viewModel.isFavorite.set(false);
+        doReturn(false).when(movieTask).checkIsFavorite(movie);
+        viewModel.setMovie(movie);
+        assertFalse(viewModel.isFavorite.get());
+    }
 }

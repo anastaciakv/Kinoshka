@@ -1,5 +1,9 @@
 package de.proximity.kinoshka.di;
 
+import android.app.Application;
+import android.arch.persistence.room.Room;
+import android.content.ContentResolver;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,6 +19,8 @@ import de.proximity.kinoshka.MyApplication;
 import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.data.remote.ApiClient;
 import de.proximity.kinoshka.data.remote.MovieTaskImpl;
+import de.proximity.kinoshka.db.MovieDao;
+import de.proximity.kinoshka.db.MoviesDb;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -71,7 +77,24 @@ public class AppModule {
 
     @Singleton
     @Provides
-    public MovieTask providesMovieTask(ApiClient apiClient) {
-        return new MovieTaskImpl(apiClient);
+    public MovieTask providesMovieTask(ApiClient apiClient, MovieDao movieDao, ContentResolver contentResolver) {
+        return new MovieTaskImpl(apiClient, movieDao, contentResolver);
+    }
+
+    @Singleton
+    @Provides
+    MoviesDb provideDb(Application app) {
+        return Room.databaseBuilder(app, MoviesDb.class, "movies.db").allowMainThreadQueries().build();
+    }
+
+    @Provides
+    ContentResolver provideContentResolver(Application application) {
+        return application.getContentResolver();
+    }
+
+    @Singleton
+    @Provides
+    MovieDao provideMovieDao(MoviesDb db) {
+        return db.movieDao();
     }
 }

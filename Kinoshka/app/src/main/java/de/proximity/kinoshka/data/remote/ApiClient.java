@@ -15,5 +15,5 @@ public interface ApiClient {
     Call<ServerResponse<Movie>> getSortedMoviesList(@Path("sort") String sortMode, @Query("page") int page);
 
     @GET("movie/{id}/reviews")
-    Call<ServerResponse<Review>> getMovieReviews(@Path("id") int movieId);
+    Call<ServerResponse<Review>> getMovieReviews(@Path("id") long movieId);
 }
