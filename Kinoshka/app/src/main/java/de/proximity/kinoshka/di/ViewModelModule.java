@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
+import de.proximity.kinoshka.ui.favorites.FavoritesViewModel;
 import de.proximity.kinoshka.ui.moviedetails.MovieDetailsViewModel;
 import de.proximity.kinoshka.ui.movielist.MovieListViewModel;
 import de.proximity.kinoshka.viewmodel.KinoshkaViewModelFactory;
@@ -22,6 +23,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MovieListViewModel.class)
     abstract ViewModel bindMovieListViewModel(MovieListViewModel movieListViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoritesViewModel.class)
+    abstract ViewModel bindFavoritesViewModel(FavoritesViewModel favoritesViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(KinoshkaViewModelFactory factory);

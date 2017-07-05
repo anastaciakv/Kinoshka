@@ -1,6 +1,7 @@
-package de.proximity.kinoshka.ui.movielist;
+package de.proximity.kinoshka.ui.favorites;
 
 
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
@@ -8,31 +9,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.databinding.MovieItemBinding;
 import de.proximity.kinoshka.entity.Movie;
 
-public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> {
+public class FavMovieGridAdapter extends RecyclerView.Adapter<FavMovieGridAdapter.MovieViewHolder> {
+    private Cursor cursor;
+    final private MovieClickCallback callback;
+
+    public FavMovieGridAdapter(MovieClickCallback callback) {
+        this.callback = callback;
+    }
 
     public interface MovieClickCallback {
         void onClick(Movie movie, View view);
     }
 
-    final private MovieClickCallback callback;
-    List<Movie> movies;
-
-    public MovieGridAdapter(MovieClickCallback callback) {
-        this.callback = callback;
-        movies = new ArrayList<>();
-    }
-
-    public void update(List<Movie> movieList) {
-        movies.clear();
-        movies.addAll(movieList);
-        notifyDataSetChanged();
+    /**
+     * When data changes and a re-query occurs, this function swaps the old Cursor
+     * with a newly updated Cursor (Cursor c) that is passed in.
+     */
+    public void swapCursor(Cursor c) {
+        // check if this cursor is the same as the previous cursor (mCursor)
+        if (cursor == c) {
+            return; // bc nothing has changed
+        }
+        this.cursor = c; // new cursor value assigned
+        //check if this is a valid cursor, then update the cursor
+        if (c != null) {
+            this.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -50,14 +56,19 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        holder.bind(movies.get(position));
-        ViewCompat.setTransitionName(holder.binding.ivPoster, String.valueOf(movies.get(position).id));
+        cursor.moveToPosition(position);
+        Movie movie = new Movie(cursor);
+        holder.bind(movie);
+        ViewCompat.setTransitionName(holder.binding.ivPoster, String.valueOf(movie.id));
         holder.binding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        if (cursor == null) {
+            return 0;
+        }
+        return cursor.getCount();
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {

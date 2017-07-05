@@ -1,7 +1,6 @@
 package de.proximity.kinoshka.ui.movielist;
 
 
-import android.app.ActivityOptions;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.ViewModelProvider;
@@ -10,24 +9,20 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
-import org.parceler.Parcels;
 
 import javax.inject.Inject;
 
 import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.databinding.ActivityMovieListBinding;
 import de.proximity.kinoshka.di.Injectable;
-import de.proximity.kinoshka.entity.Movie;
-import de.proximity.kinoshka.ui.moviedetails.MovieDetailsActivity;
+import de.proximity.kinoshka.ui.NavigationController;
+import de.proximity.kinoshka.ui.favorites.FavoritesActivity;
+import de.proximity.kinoshka.utils.Helper;
 
 public class MovieListActivity extends AppCompatActivity implements Injectable, LifecycleRegistryOwner {
     @Inject
@@ -50,7 +45,7 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
     }
 
     private void initGrid() {
-        final GridLayoutManager layoutManager = new GridLayoutManager(this, getNumberOfColumns());
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, Helper.getNumberOfColumns(this));
         binding.rvMovieList.setLayoutManager(layoutManager);
         binding.rvMovieList.setHasFixedSize(true);
         binding.rvMovieList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -65,35 +60,9 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
                 viewModel.onListScrolled(visibleItemCount, totalItemCount, firstVisibleItemPosition);
             }
         });
-        adapter = new MovieGridAdapter(null, this::navigateToMovieDetails);
+        adapter = new MovieGridAdapter(
+                (movie, view) -> NavigationController.navigateToMovieDetails(MovieListActivity.this, movie, view));
         binding.rvMovieList.setAdapter(adapter);
-    }
-
-    private void navigateToMovieDetails(Movie movie, View v) {
-        Intent intent = new Intent(MovieListActivity.this, MovieDetailsActivity.class);
-
-        Bundle extras = new Bundle();
-        extras.putParcelable(Movie.ITEM_KEY, Parcels.wrap(movie));
-        extras.putString(Movie.TRANSITION_NAME_KEY, ViewCompat.getTransitionName(v));
-        intent.putExtras(extras);
-
-        Bundle bundle = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            bundle = ActivityOptions.makeSceneTransitionAnimation(this, v,
-                    v.getTransitionName()).toBundle();
-        }
-
-        startActivity(intent, bundle);
-    }
-
-    private int getNumberOfColumns() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int widthDivider = 400;
-        int width = displayMetrics.widthPixels;
-        int nColumns = width / widthDivider;
-        if (nColumns < 2) return 2;
-        return nColumns;
     }
 
     @Override
@@ -114,7 +83,7 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
                 item.setChecked(true);
                 return true;
             case R.id.menu_favorites:
-                viewModel.onFavoritesClicked();
+                startActivity(new Intent(this, FavoritesActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

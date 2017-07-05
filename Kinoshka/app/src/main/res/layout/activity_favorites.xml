@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="de.proximity.kinoshka.ui.favorites.FavoritesViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:appCompatActivity="de.proximity.kinoshka.ui.movielist.MovieListFragment">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvMovieList"
+            visibleGone="@{viewmodel.showList}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            tools:listitem="@layout/movie_item" />
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            visibleGone="@{!viewmodel.showList}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/empty_favorites_movie_list_error_msg" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            visibleGone="@{viewmodel.isLoading}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+</layout>

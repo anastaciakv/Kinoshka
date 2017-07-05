@@ -10,5 +10,7 @@
     <!--Util strings-->
     <string name="cd_poster" translatable="false">poster</string>
     <string name="favorites">Favorites</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
+    <string name="empty_favorites_movie_list_error_msg">You didn\'t add any movies to favorites yet</string>
     <!---->
 </resources>

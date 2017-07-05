@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.provider.BaseColumns;
 
 import org.parceler.Parcel;
@@ -51,6 +52,16 @@ public class Movie {
     public String releaseDate;
 
     public Movie() {
+    }
+
+    public Movie(Cursor cursor) {
+        id = cursor.getLong(cursor.getColumnIndex(Table.COLUMN_ID));
+        originalTitle = cursor.getString(cursor.getColumnIndex(Table.COLUMN_ORIGINAL_TITLE));
+        voteAverage = cursor.getDouble(cursor.getColumnIndex(Table.COLUMN_VOTE_AVERAGE));
+        posterPath = cursor.getString(cursor.getColumnIndex(Table.COLUMN_POSTER_PATH));
+        backdropPath = cursor.getString(cursor.getColumnIndex(Table.COLUMN_BACKDROP_PATH));
+        releaseDate = cursor.getString(cursor.getColumnIndex(Table.COLUMN_RELEASE_DATE));
+        overview = cursor.getString(cursor.getColumnIndex(Table.COLUMN_OVERVIEW));
     }
 
     /**

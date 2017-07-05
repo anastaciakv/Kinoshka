@@ -21,6 +21,7 @@ import de.proximity.kinoshka.binding.ImageReadyCallback;
 import de.proximity.kinoshka.databinding.ActivityMovieDetailsBinding;
 import de.proximity.kinoshka.di.Injectable;
 import de.proximity.kinoshka.entity.Movie;
+import de.proximity.kinoshka.ui.NavigationController;
 
 public class MovieDetailsActivity extends AppCompatActivity implements Injectable, LifecycleRegistryOwner, ImageReadyCallback {
     private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
@@ -30,6 +31,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
     MovieDetailsViewModel viewModel;
     private ReviewAdapter reviewAdapter;
     private String transitionName;
+    private boolean isFromFavorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
         if (getIntent().getExtras() != null) {
             movie = Parcels.unwrap(getIntent().getParcelableExtra(Movie.ITEM_KEY));
             transitionName = getIntent().getStringExtra(Movie.TRANSITION_NAME_KEY);
+            isFromFavorites = getIntent().getBooleanExtra(NavigationController.IS_FROM_FAVORITES_KEY, false);
         }
         if (movie == null) {
             Toast.makeText(this, R.string.msg_no_movie_to_display, Toast.LENGTH_LONG).show();
@@ -85,7 +88,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
     }
 
     private void closeScreen() {
-        supportFinishAfterTransition();
+        if (isFromFavorites && !viewModel.isFavorite.get()) {
+            finish();
+        } else {
+            supportFinishAfterTransition();
+        }
     }
 
     @Override

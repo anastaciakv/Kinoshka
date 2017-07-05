@@ -108,5 +108,10 @@ public class MovieTaskImpl implements MovieTask {
         });
     }
 
+    @Override
+    public Cursor fetchMoviesFavorite() {
+        return contentResolver.query(KinoshkaContentProvider.CONTENT_URI, null, null, null, null);
+    }
+
 }
 

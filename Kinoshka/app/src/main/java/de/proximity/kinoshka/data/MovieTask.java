@@ -1,6 +1,7 @@
 package de.proximity.kinoshka.data;
 
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import de.proximity.kinoshka.data.remote.ServerResponse;
@@ -21,7 +22,16 @@ public interface MovieTask {
 
     }
 
+    interface MovieTaskCursorCallback {
+
+        void onSuccess(Cursor moviesCursor);
+
+        void onError();
+    }
+
     void fetchReviews(long movieId, @NonNull MovieTaskCallback callback);
 
     void fetchMovies(String sortMode, int page, @NonNull MovieTaskCallback callback);
+
+    Cursor fetchMoviesFavorite();
 }

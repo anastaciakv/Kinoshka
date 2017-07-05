@@ -21,17 +21,21 @@
         </activity>
         <activity
             android:name=".ui.moviedetails.MovieDetailsActivity"
-            android:parentActivityName=".ui.movielist.MovieListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.proximity.kinoshka.ui.movielist.MovieListActivity" />
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name=".provider.KinoshkaContentProvider"
             android:authorities="de.proximity.kinoshka"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.favorites.FavoritesActivity"
+            android:label="@string/title_activity_favorites"
+            android:parentActivityName=".ui.movielist.MovieListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.proximity.kinoshka.ui.movielist.MovieListActivity" />
+        </activity>
     </application>
 
 </manifest>

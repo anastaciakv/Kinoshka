@@ -97,7 +97,4 @@ public class MovieListViewModel extends ViewModel {
     boolean isLastPage() {
         return currentPage == totalPages;
     }
-
-    public void onFavoritesClicked() {
-    }
 }
