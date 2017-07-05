@@ -107,6 +107,6 @@ public class BindingAdapters {
     @BindingAdapter("favorite")
     public static void setFavoriteState(ImageView view, boolean isFavorite) {
 
-        view.setImageResource(isFavorite ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_border);
+        view.setImageResource(isFavorite ? R.drawable.ic_bookmark_selected : R.drawable.ic_bookmark_border);
     }
 }

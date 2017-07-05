@@ -152,6 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             android:onClick="@{viewModel::onFavoritesClicked}"
+            android:tint="@color/colorPrimary"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end" />
 
