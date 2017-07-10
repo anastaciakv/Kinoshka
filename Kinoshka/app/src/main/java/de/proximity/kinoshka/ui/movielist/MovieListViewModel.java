@@ -62,13 +62,13 @@ public class MovieListViewModel extends ViewModel {
     }
 
     public void onSortByMostPopular() {
-        if (currentSortMode == Movie.SortMode.mostPopular) return;
+        if (Movie.SortMode.mostPopular.equals(currentSortMode)) return;
         changeSortModeAndUpdate(Movie.SortMode.mostPopular);
     }
 
 
     public void onSortByTopRated() {
-        if (currentSortMode == Movie.SortMode.topRated) return;
+        if (Movie.SortMode.topRated.equals(currentSortMode)) return;
         changeSortModeAndUpdate(Movie.SortMode.topRated);
     }
 

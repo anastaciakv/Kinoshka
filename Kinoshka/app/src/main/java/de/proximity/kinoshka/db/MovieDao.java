@@ -66,4 +66,12 @@ public interface MovieDao {
      */
     @Update()
     int update(Movie movie);
+
+    /**
+     * Counts the number of movies in the table.
+     *
+     * @return The number of movies.
+     */
+    @Query("SELECT COUNT(*) FROM " + Movie.Table.TABLE_NAME)
+    int count();
 }

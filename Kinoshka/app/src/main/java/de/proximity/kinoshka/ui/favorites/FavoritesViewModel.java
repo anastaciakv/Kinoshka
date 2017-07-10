@@ -23,7 +23,6 @@ public class FavoritesViewModel extends ViewModel {
     @Inject
     public FavoritesViewModel(MovieTask task) {
         this.movieTask = task;
-
     }
 
     public void onStartLoading() {

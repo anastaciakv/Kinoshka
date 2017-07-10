@@ -28,8 +28,12 @@ public class KinoshkaContentProvider extends DaggerContentProvider {
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
-    @Inject
     MovieDao movieDao;
+
+    @Inject
+    public void setMovieDao(MovieDao movieDao) {
+        this.movieDao = movieDao;
+    }
 
     public static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

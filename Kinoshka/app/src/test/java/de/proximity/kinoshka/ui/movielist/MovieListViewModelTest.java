@@ -14,6 +14,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
+
 import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.data.remote.ServerResponse;
 import de.proximity.kinoshka.entity.Movie;
@@ -173,6 +175,81 @@ public class MovieListViewModelTest {
         assertFalse(viewModel.isLastPage());
         viewModel.currentPage = 12;
         assertTrue(viewModel.isLastPage());
+    }
+
+    @Test
+    public void returnsMovies() {
+        List<Movie> movies = getPopularMovies().items;
+        viewModel.movies.setValue(movies);
+        assertEquals(movies, viewModel.getMovies().getValue());
+    }
+
+    @Test
+    public void given_needMoreItems_when_scrolled_then_increasePage_andFetch() {
+        viewModel.currentPage = 1;
+        viewModel.totalPages = 4;
+        viewModel.currentSortMode = Movie.SortMode.topRated;
+        viewModel.isLoading.set(false);
+
+        viewModel.onListScrolled(4, 20, 16);
+        assertEquals(2, viewModel.currentPage);
+        verify(movieTask).fetchMovies(Movie.SortMode.topRated, 2, viewModel.getMovieTaskCallback());
+    }
+
+    @Test
+    public void given_atFirstItem_when_scrolled_then_doNothing() {
+        verify(movieTask, times(1)).fetchMovies(Movie.SortMode.mostPopular, 1, viewModel.getMovieTaskCallback());
+        viewModel.currentPage = 1;
+        viewModel.totalPages = 4;
+        viewModel.currentSortMode = Movie.SortMode.topRated;
+        viewModel.isLoading.set(false);
+
+        viewModel.onListScrolled(4, 20, 0);
+
+        assertEquals(1, viewModel.currentPage);
+        verifyZeroInteractions(movieTask);
+    }
+
+    @Test
+    public void given_isLoading_when_scrolled_then_doNothing() {
+        verify(movieTask, times(1)).fetchMovies(Movie.SortMode.mostPopular, 1, viewModel.getMovieTaskCallback());
+        viewModel.currentPage = 1;
+        viewModel.totalPages = 4;
+        viewModel.currentSortMode = Movie.SortMode.topRated;
+        viewModel.isLoading.set(true);
+
+        viewModel.onListScrolled(4, 20, 16);
+
+        assertEquals(1, viewModel.currentPage);
+        verifyZeroInteractions(movieTask);
+    }
+
+    @Test
+    public void given_lastPage_when_scrolled_then_doNothing() {
+        verify(movieTask, times(1)).fetchMovies(Movie.SortMode.mostPopular, 1, viewModel.getMovieTaskCallback());
+        viewModel.currentPage = 1;
+        viewModel.totalPages = 1;
+        viewModel.currentSortMode = Movie.SortMode.topRated;
+        viewModel.isLoading.set(false);
+
+        viewModel.onListScrolled(4, 20, 16);
+
+        assertEquals(1, viewModel.currentPage);
+        verifyZeroInteractions(movieTask);
+    }
+
+    @Test
+    public void given_moreItemsAvailable_when_scrolled_then_doNothing() {
+        viewModel.currentSortMode = Movie.SortMode.mostPopular;
+        verify(movieTask, times(1)).fetchMovies(Movie.SortMode.mostPopular, 1, viewModel.getMovieTaskCallback());
+        viewModel.currentPage = 1;
+        viewModel.totalPages = 3;
+        viewModel.isLoading.set(false);
+
+        viewModel.onListScrolled(4, 20, 15);
+
+        assertEquals(1, viewModel.currentPage);
+        verifyZeroInteractions(movieTask);
     }
 
     private ServerResponse<Movie> getPopularMovies() {
