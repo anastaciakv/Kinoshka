@@ -12,4 +12,4 @@ In the project create a string resource with a name **the_movie_db_api_key** and
 
 `<string name="the_movie_db_api_key">INSERT YOUR API KEY</string>`
 
-The project is implemented using [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) with Activities.
+The project is implemented using MVVM and [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) with Activities.
