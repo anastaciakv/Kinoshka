@@ -111,11 +111,11 @@ task fullCoverageReport(type: JacocoReport) {
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*',
                       '**/*Test*.*', 'android/**/*.*',
-                      '**/*_MembersInjector.class',
-                      '**/Dagger*Component.class',
+                      '**/*_MembersInjector.class', '**/*_Impl*', '**/*Binding*',
+                      '**/Dagger*Component*.class', '**/*ViewModelFactory.class',
                       '**/Dagger*Component$Builder.class',
-                      '**/*_*Factory.class',
-                      '**/*ComponentImpl.class',
+                      '**/*_*Factory.class', '**/MoviesDb.class',
+                      '**/*ComponentImpl.class', '**/BR.class', '**/*_Contribute*.class',
                       '**/*SubComponentBuilder.class']
     def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
