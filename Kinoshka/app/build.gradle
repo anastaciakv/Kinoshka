@@ -101,7 +101,8 @@ dependencies {
 }
 
 task fullCoverageReport(type: JacocoReport) {
-    dependsOn 'createDebugCoverageReport'
+//    dependsOn 'createDebugCoverageReport'
+    dependsOn 'connectedAndroidTest'
     dependsOn 'testDebugUnitTest'
     reports {
         xml.enabled = true
