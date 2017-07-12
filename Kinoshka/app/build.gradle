@@ -50,10 +50,6 @@ dependencies {
     compile "android.arch.persistence.room:runtime:$rootProject.archVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.archVersion"
 
-    //binding views - Butter Knife
-    compile "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
-
     //Picasso
     compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
