@@ -1,18 +1,28 @@
 <resources>
     <string name="app_name">Kinoshka</string>
-    <string name="empty_movie_list_error_msg">Something went wrong, no movies available</string>
 
-    <string name="msg_no_movie_to_display">Error! No movie to display!</string>
+    <!--Movies List Screen-->
+    <string name="empty_movie_list_error_msg">Something went wrong, no movies available</string>
     <string name="most_popular">Most popular</string>
     <string name="top_rated">Top rated</string>
-    <string name="lbl_release_date">Release Date:</string>
+    <!---->
 
     <!--Util strings-->
     <string name="cd_poster" translatable="false">poster</string>
+    <!---->
+
+    <!--Favorites Screen-->
     <string name="favorites">Favorites</string>
     <string name="title_activity_favorites">Favorites</string>
     <string name="empty_favorites_movie_list_error_msg">You didn\'t add any movies to favorites yet</string>
+    <!---->
+
+    <!--Movie Details Screen-->
+    <string name="lbl_release_date">Release Date:</string>
+    <string name="msg_no_movie_to_display">Error! No movie to display!</string>
     <string name="lbl_reviews">Reviews</string>
     <string name="lbl_trailers">Trailers</string>
+    <string name="share_chooser_dialog">To: </string>
+    <string name="msg_share_trailer">Check out this trailer:</string>
     <!---->
 </resources>

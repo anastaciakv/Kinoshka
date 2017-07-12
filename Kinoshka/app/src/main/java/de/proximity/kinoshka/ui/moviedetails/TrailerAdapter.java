@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -29,14 +30,28 @@ class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHold
     public TrailerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         TrailerItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.trailer_item, parent, false);
-        binding.getRoot().setOnClickListener(view -> {
+        binding.tvTitle.setOnClickListener(view -> {
             startYouTube(binding.getTrailer().key, parent.getContext());
         });
+        binding.btnShare.setOnClickListener(view -> shareTrailer(binding.getTrailer().key, parent.getContext()));
         return new TrailerViewHolder(binding);
     }
 
-    private void startYouTube(String key, Context context) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key)));
+    private void shareTrailer(String trailerKey, Context context) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.msg_share_trailer) + getYouTubeLink(trailerKey));
+        sendIntent.setType("text/plain");
+        context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.share_chooser_dialog)));
+    }
+
+    @NonNull
+    private String getYouTubeLink(String videoKey) {
+        return "http://www.youtube.com/watch?v=" + videoKey;
+    }
+
+    private void startYouTube(String trailerKey, Context context) {
+        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getYouTubeLink(trailerKey))));
     }
 
     @Override
