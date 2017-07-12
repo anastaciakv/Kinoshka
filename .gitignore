@@ -42,3 +42,4 @@ freeline_project_description.json
 # Keystore files
 *.jks
 /video-x-sgi-movie.png
+/Kinoshka/gradle.properties
