@@ -5,7 +5,6 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +20,6 @@ import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.databinding.ActivityMovieListBinding;
 import de.proximity.kinoshka.di.Injectable;
 import de.proximity.kinoshka.ui.NavigationController;
-import de.proximity.kinoshka.ui.favorites.FavoritesActivity;
 import de.proximity.kinoshka.utils.Helper;
 
 public class MovieListActivity extends AppCompatActivity implements Injectable, LifecycleRegistryOwner {
@@ -83,7 +81,7 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
                 item.setChecked(true);
                 return true;
             case R.id.menu_favorites:
-                startActivity(new Intent(this, FavoritesActivity.class));
+                NavigationController.navigateToFavorites(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -11,6 +11,7 @@ import android.view.View;
 import org.parceler.Parcels;
 
 import de.proximity.kinoshka.entity.Movie;
+import de.proximity.kinoshka.ui.favorites.FavoritesActivity;
 import de.proximity.kinoshka.ui.moviedetails.MovieDetailsActivity;
 
 public class NavigationController {
@@ -40,5 +41,9 @@ public class NavigationController {
 
     public static void navigateToMovieDetails(Activity activity, Movie movie, View v) {
         navigateToMovie(activity, movie, v, false);
+    }
+
+    public static void navigateToFavorites(Activity activity) {
+        activity.startActivity(new Intent(activity, FavoritesActivity.class));
     }
 }
