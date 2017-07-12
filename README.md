@@ -8,8 +8,8 @@
 Kinoshka is an Android app that displays a list of popular or top rated movies using [The Movie Database API](https://www.themoviedb.org/documentation/api).
 
 In order to built the source code and perform requests to the API you will need an [API key](https://www.themoviedb.org/settings/api). 
-In the project create a string resource with a name **the_movie_db_api_key** and set the value to your key.
+In the project add your key to the **gradle.properties** like this:
 
-`<string name="the_movie_db_api_key">INSERT YOUR API KEY</string>`
+`API_KEY=your_api_key_value`
 
 The project is implemented using MVVM and [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) with Activities.
