@@ -15,7 +15,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import de.proximity.kinoshka.BuildConfig;
-import de.proximity.kinoshka.MyApplication;
 import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.data.remote.ApiClient;
 import de.proximity.kinoshka.data.remote.MovieTaskImpl;
@@ -43,7 +42,7 @@ public class AppModule {
             HttpUrl originalHttpUrl = original.url();
 
             HttpUrl url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("api_key", MyApplication.THE_MOVIE_DB_API_KEY)
+                    .addQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_KEY)
                     .build();
 
             // Request customization: add request headers

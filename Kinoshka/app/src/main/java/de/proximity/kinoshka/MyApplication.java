@@ -15,7 +15,7 @@ import de.proximity.kinoshka.di.AppInjector;
 import timber.log.Timber;
 
 public class MyApplication extends Application implements HasActivityInjector, HasContentProviderInjector {
-    public static String THE_MOVIE_DB_API_KEY;
+
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
     @Inject
@@ -25,7 +25,6 @@ public class MyApplication extends Application implements HasActivityInjector, H
     @Override
     public void onCreate() {
         super.onCreate();
-        THE_MOVIE_DB_API_KEY = getString(R.string.the_movie_db_api_key);
         initTimber();
         injectIfNeeded();
     }
