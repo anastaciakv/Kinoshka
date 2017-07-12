@@ -9,8 +9,13 @@
     </style>
 
     <style name="AppTheme.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.Transparent" parent="AppTheme">
+        <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
