@@ -16,22 +16,32 @@ import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.data.remote.ServerResponse;
 import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.Review;
+import de.proximity.kinoshka.entity.Trailer;
 
 public class MovieDetailsViewModel extends ViewModel {
     private final MovieTask movieTask;
-    public ObservableBoolean isFavorite = new ObservableBoolean(false);
-
-    public LiveData<List<Review>> getReviews() {
-        return reviews;
-    }
+    public Movie movie;
 
     public MutableLiveData<List<Review>> reviews = new MutableLiveData<>();
+    public MutableLiveData<List<Trailer>> trailers = new MutableLiveData<>();
+
+    public ObservableBoolean isFavorite = new ObservableBoolean(false);
+    public ObservableBoolean isTrailerAvailable = new ObservableBoolean(false);
     public ObservableBoolean isReviewAvailable = new ObservableBoolean(false);
 
     public void setMovie(Movie movie) {
         this.movie = movie;
         isFavorite.set(movieTask.checkIsFavorite(movie));
         fetchReviews();
+        fetchTrailers();
+    }
+
+    public LiveData<List<Review>> getReviews() {
+        return reviews;
+    }
+
+    public LiveData<List<Trailer>> getTrailers() {
+        return trailers;
     }
 
     public void onFavoritesClicked(View v) {
@@ -45,6 +55,11 @@ public class MovieDetailsViewModel extends ViewModel {
 
     private void fetchReviews() {
         movieTask.fetchReviews(movie.id, getReviewCallback());
+    }
+
+    private void fetchTrailers() {
+     //   if (movie.video)
+            movieTask.fetchTrailers(movie.id, getTrailerCallback());
     }
 
     @Singleton
@@ -65,11 +80,24 @@ public class MovieDetailsViewModel extends ViewModel {
         };
     }
 
-    public Movie movie;
-
     @Inject
     public MovieDetailsViewModel(MovieTask movieTask) {
         this.movieTask = movieTask;
     }
 
+    @Singleton
+    private MovieTask.MovieTaskCallback getTrailerCallback() {
+        return new MovieTask.MovieTaskCallback() {
+            @Override
+            public void onSuccess(ServerResponse serverResponse) {
+                trailers.setValue(serverResponse.items);
+                isTrailerAvailable.set(serverResponse.items != null && !serverResponse.items.isEmpty());
+            }
+
+            @Override
+            public void onError() {
+                isTrailerAvailable.set(false);
+            }
+        };
+    }
 }

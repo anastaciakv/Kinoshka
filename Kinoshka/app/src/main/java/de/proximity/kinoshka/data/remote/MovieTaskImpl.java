@@ -14,6 +14,7 @@ import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.db.MovieDao;
 import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.Review;
+import de.proximity.kinoshka.entity.Trailer;
 import de.proximity.kinoshka.provider.KinoshkaContentProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -103,6 +104,23 @@ public class MovieTaskImpl implements MovieTask {
 
             @Override
             public void onFailure(Call<ServerResponse<Movie>> call, Throwable t) {
+                callback.onError();
+            }
+        });
+    }
+
+    @Override
+    public void fetchTrailers(long movieId, @NonNull MovieTaskCallback callback) {
+        checkNotNull(callback);
+        Call<ServerResponse<Trailer>> call = apiClient.getMovieTrailers(movieId);
+        call.enqueue(new Callback<ServerResponse<Trailer>>() {
+            @Override
+            public void onResponse(Call<ServerResponse<Trailer>> call, Response<ServerResponse<Trailer>> response) {
+                callback.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse<Trailer>> call, Throwable t) {
                 callback.onError();
             }
         });

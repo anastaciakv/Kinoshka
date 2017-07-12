@@ -22,16 +22,11 @@ public interface MovieTask {
 
     }
 
-    interface MovieTaskCursorCallback {
-
-        void onSuccess(Cursor moviesCursor);
-
-        void onError();
-    }
-
     void fetchReviews(long movieId, @NonNull MovieTaskCallback callback);
 
     void fetchMovies(String sortMode, int page, @NonNull MovieTaskCallback callback);
+
+    void fetchTrailers(long movieId, @NonNull MovieTaskCallback callback);
 
     Cursor fetchMoviesFavorite();
 }

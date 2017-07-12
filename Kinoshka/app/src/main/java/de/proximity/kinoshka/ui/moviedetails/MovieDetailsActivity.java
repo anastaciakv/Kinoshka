@@ -32,6 +32,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
     private ReviewAdapter reviewAdapter;
     private String transitionName;
     private boolean isFromFavorites;
+    private TrailerAdapter trailerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
         }
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieDetailsViewModel.class);
         reviewAdapter = new ReviewAdapter();
+        trailerAdapter = new TrailerAdapter();
 
         initView(movie);
         observe(movie);
@@ -59,6 +61,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
     private void observe(Movie movie) {
         viewModel.setMovie(movie);
         viewModel.getReviews().observe(this, reviews -> reviewAdapter.update(reviews));
+        viewModel.getTrailers().observe(this, trailers -> trailerAdapter.update(trailers));
     }
 
     private void initView(Movie movie) {
@@ -72,9 +75,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
         binding.setCallback(this);
         binding.setMovie(movie);
         binding.setViewModel(viewModel);
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        //reviews list
         binding.rvReviewList.setHasFixedSize(true);
         binding.rvReviewList.setAdapter(reviewAdapter);
-        binding.rvReviewList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        binding.rvReviewList.addItemDecoration(divider);
+        //trailers list
+        binding.rvTrailerList.setHasFixedSize(true);
+        binding.rvTrailerList.setAdapter(trailerAdapter);
+        binding.rvReviewList.addItemDecoration(divider);
+
 
     }
 

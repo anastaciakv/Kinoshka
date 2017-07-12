@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="trailer"
+            type="de.proximity.kinoshka.entity.Trailer" />
+    </data>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeight"
+        android:drawableLeft="@drawable/ic_play_arrow_24dp"
+        android:drawablePadding="@dimen/activity_horizontal_margin"
+        android:drawableTint="@color/colorPrimaryDark"
+        android:gravity="center_vertical"
+        android:text="@{trailer.name}"
+        tools:text="Trailer Title" />
+</layout>

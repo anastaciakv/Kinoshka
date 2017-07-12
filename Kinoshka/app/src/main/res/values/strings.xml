@@ -12,5 +12,7 @@
     <string name="favorites">Favorites</string>
     <string name="title_activity_favorites">Favorites</string>
     <string name="empty_favorites_movie_list_error_msg">You didn\'t add any movies to favorites yet</string>
+    <string name="lbl_reviews">Reviews</string>
+    <string name="lbl_trailers">Trailers</string>
     <!---->
 </resources>

@@ -17,6 +17,7 @@ import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.data.remote.ServerResponse;
 import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.Review;
+import de.proximity.kinoshka.entity.Trailer;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -24,6 +25,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class MovieDetailsViewModelTest {
@@ -104,6 +106,72 @@ public class MovieDetailsViewModelTest {
 
         movieTaskCallbackArgumentCaptor.getValue().onError();
         assertFalse(viewModel.isReviewAvailable.get());
+    }
+
+    @Test
+    public void given_hasVideos_when_setMovie_then_fetchVideos() {
+        movie.video = true;
+        viewModel.setMovie(movie);
+        verify(movieTask).fetchTrailers(anyLong(), any(MovieTask.MovieTaskCallback.class));
+    }
+
+    @Test
+    public void given_hasNoVideos_when_setMovie_then_doNotFetchVideos() {
+        movie.video = false;
+        viewModel.setMovie(movie);
+        verify(movieTask, times(0)).fetchTrailers(anyLong(), any(MovieTask.MovieTaskCallback.class));
+    }
+
+    @Test
+    public void when_fetchTrailersSuccess_then_showTrailers() throws Exception {
+        viewModel.isTrailerAvailable.set(false);
+        movie.video = true;
+        viewModel.setMovie(movie);
+        verify(movieTask).fetchTrailers(anyLong(), movieTaskCallbackArgumentCaptor.capture());
+        List<Trailer> trailers = new ArrayList<>();
+        trailers.add(new Trailer());
+        ServerResponse<Trailer> response = new ServerResponse<>();
+        response.items = trailers;
+        movieTaskCallbackArgumentCaptor.getValue().onSuccess(response);
+        assertTrue(viewModel.isTrailerAvailable.get());
+        assertEquals(trailers, viewModel.getTrailers().getValue());
+    }
+
+    @Test
+    public void when_fetchTrailersSuccessButNoTrailers_then_hideTrailers() throws Exception {
+        viewModel.isTrailerAvailable.set(false);
+        movie.video = true;
+        viewModel.setMovie(movie);
+        verify(movieTask).fetchTrailers(anyLong(), movieTaskCallbackArgumentCaptor.capture());
+        List<Trailer> trailers = new ArrayList<>();
+        ServerResponse<Trailer> response = new ServerResponse<>();
+        response.items = trailers;
+        movieTaskCallbackArgumentCaptor.getValue().onSuccess(response);
+        assertFalse(viewModel.isTrailerAvailable.get());
+    }
+
+    @Test
+    public void when_fetchTrailersSuccessButTrailersNull_then_hideTrailers() throws Exception {
+        viewModel.isTrailerAvailable.set(false);
+        movie.video = true;
+        viewModel.setMovie(movie);
+        verify(movieTask).fetchTrailers(anyLong(), movieTaskCallbackArgumentCaptor.capture());
+
+        ServerResponse<Trailer> response = new ServerResponse<>();
+        response.items = null;
+        movieTaskCallbackArgumentCaptor.getValue().onSuccess(response);
+        assertFalse(viewModel.isTrailerAvailable.get());
+    }
+
+    @Test
+    public void when_fetchTrailersError_then_hideTrailers() throws Exception {
+        viewModel.isTrailerAvailable.set(true);
+        movie.video = true;
+        viewModel.setMovie(movie);
+        verify(movieTask).fetchTrailers(anyLong(), movieTaskCallbackArgumentCaptor.capture());
+
+        movieTaskCallbackArgumentCaptor.getValue().onError();
+        assertFalse(viewModel.isTrailerAvailable.get());
     }
 
     @Test
