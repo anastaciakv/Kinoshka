@@ -8,7 +8,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -75,15 +74,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
         binding.setCallback(this);
         binding.setMovie(movie);
         binding.setViewModel(viewModel);
-        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         //reviews list
         binding.rvReviewList.setHasFixedSize(true);
         binding.rvReviewList.setAdapter(reviewAdapter);
-        binding.rvReviewList.addItemDecoration(divider);
         //trailers list
         binding.rvTrailerList.setHasFixedSize(true);
         binding.rvTrailerList.setAdapter(trailerAdapter);
-        binding.rvReviewList.addItemDecoration(divider);
 
 
     }

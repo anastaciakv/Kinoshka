@@ -19,7 +19,6 @@ package de.proximity.kinoshka.binding;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.databinding.BindingAdapter;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -90,7 +89,7 @@ public class BindingAdapters {
     private static void loadImage(ImageView imageView, String url, ImageReadyCallback callback) {
         Picasso.with(imageView.getContext())
                 .load(url).noFade()
-                .error(ContextCompat.getDrawable(imageView.getContext(), R.drawable.ic_image))
+                .error(R.drawable.ic_image)
                 .into(imageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -106,7 +105,6 @@ public class BindingAdapters {
 
     @BindingAdapter("favorite")
     public static void setFavoriteState(ImageView view, boolean isFavorite) {
-
         view.setImageResource(isFavorite ? R.drawable.ic_bookmark_selected : R.drawable.ic_bookmark_border);
     }
 }
