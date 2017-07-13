@@ -1,6 +1,7 @@
 package de.proximity.kinoshka.ui.favorites;
 
 
+import android.content.Context;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -45,18 +46,7 @@ public class FavoritesActivity extends AppCompatActivity implements Injectable, 
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<Cursor>(this) {
-            @Override
-            protected void onStartLoading() {
-                viewModel.onStartLoading();
-                forceLoad();
-            }
-
-            @Override
-            public Cursor loadInBackground() {
-                return viewModel.getMovies();
-            }
-        };
+        return new MyLoader(this, viewModel);
     }
 
     @Override
@@ -74,5 +64,25 @@ public class FavoritesActivity extends AppCompatActivity implements Injectable, 
     protected void onResume() {
         super.onResume();
         getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
+    }
+
+    private static class MyLoader extends AsyncTaskLoader<Cursor> {
+        private FavoritesViewModel viewModel;
+
+        public MyLoader(Context context, FavoritesViewModel viewModel) {
+            super(context);
+            this.viewModel = viewModel;
+        }
+
+        @Override
+        protected void onStartLoading() {
+            viewModel.onStartLoading();
+            forceLoad();
+        }
+
+        @Override
+        public Cursor loadInBackground() {
+            return viewModel.getMovies();
+        }
     }
 }

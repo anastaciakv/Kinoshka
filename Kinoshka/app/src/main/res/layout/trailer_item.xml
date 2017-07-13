@@ -36,6 +36,7 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:padding="@dimen/activity_horizontal_margin_half"
-            app:srcCompat="@drawable/ic_share" />
+            app:srcCompat="@drawable/ic_share"
+            android:contentDescription="@string/share_trailer_link" />
     </RelativeLayout>
 </layout>

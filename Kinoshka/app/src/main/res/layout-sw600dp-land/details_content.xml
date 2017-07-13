@@ -83,6 +83,7 @@
                 android:layout_marginEnd="@dimen/activity_horizontal_margin_half"
                 android:layout_weight="1"
                 android:paddingEnd="@dimen/activity_horizontal_margin_half"
+                android:paddingStart="0dp"
                 app:items="@{viewModel.reviews}"
                 app:layoutManager="LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"

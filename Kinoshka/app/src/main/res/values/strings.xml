@@ -8,7 +8,8 @@
     <!---->
 
     <!--Util strings-->
-    <string name="cd_poster" translatable="false">poster</string>
+    <string name="cd_poster">Movie poster</string>
+    <string name="share_trailer_link">share trailer link</string>
     <!---->
 
     <!--Favorites Screen-->
