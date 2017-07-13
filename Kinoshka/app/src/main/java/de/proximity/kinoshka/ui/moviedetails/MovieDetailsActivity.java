@@ -1,9 +1,5 @@
 package de.proximity.kinoshka.ui.moviedetails;
 
-import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.LifecycleRegistryOwner;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,12 +20,10 @@ import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.ui.NavigationController;
 import de.proximity.kinoshka.utils.Helper;
 
-public class MovieDetailsActivity extends AppCompatActivity implements Injectable, LifecycleRegistryOwner, ImageReadyCallback {
-    private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
+public class MovieDetailsActivity extends AppCompatActivity implements Injectable, ImageReadyCallback {
     @Inject
-    ViewModelProvider.Factory viewModelFactory;
-    private ActivityMovieDetailsBinding binding;
     MovieDetailsViewModel viewModel;
+    private ActivityMovieDetailsBinding binding;
     private ReviewAdapter reviewAdapter;
     private String transitionName;
     private boolean isFromFavorites;
@@ -51,18 +45,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
             finish();
             return;
         }
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieDetailsViewModel.class);
         reviewAdapter = new ReviewAdapter();
         trailerAdapter = new TrailerAdapter();
 
         initView(movie);
-        observe(movie);
-    }
-
-    private void observe(Movie movie) {
         viewModel.setMovie(movie);
-        viewModel.getReviews().observe(this, reviews -> reviewAdapter.update(reviews));
-        viewModel.getTrailers().observe(this, trailers -> trailerAdapter.update(trailers));
     }
 
     private void initView(Movie movie) {
@@ -85,8 +72,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
         //trailers list
         binding.extraInfo.rvTrailerList.setHasFixedSize(true);
         binding.extraInfo.rvTrailerList.setAdapter(trailerAdapter);
-
-
     }
 
     @Override
@@ -109,11 +94,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
     @Override
     public void onBackPressed() {
         closeScreen();
-    }
-
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return lifecycleRegistry;
     }
 
     @Override

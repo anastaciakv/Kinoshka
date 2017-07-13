@@ -1,10 +1,9 @@
 package de.proximity.kinoshka.ui.moviedetails;
 
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.databinding.BaseObservable;
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.view.View;
 
 import java.util.List;
@@ -18,30 +17,23 @@ import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.Review;
 import de.proximity.kinoshka.entity.Trailer;
 
-public class MovieDetailsViewModel extends ViewModel {
+public class MovieDetailsViewModel extends BaseObservable {
     private final MovieTask movieTask;
     public Movie movie;
 
-    public MutableLiveData<List<Review>> reviews = new MutableLiveData<>();
-    public MutableLiveData<List<Trailer>> trailers = new MutableLiveData<>();
+    public ObservableField<List<Review>> reviews = new ObservableField<>();
+    public ObservableField<List<Trailer>> trailers = new ObservableField<>();
 
     public ObservableBoolean isFavorite = new ObservableBoolean(false);
     public ObservableBoolean isTrailerAvailable = new ObservableBoolean(false);
     public ObservableBoolean isReviewAvailable = new ObservableBoolean(false);
 
     public void setMovie(Movie movie) {
+        if (movie.equals(this.movie)) return;
         this.movie = movie;
         isFavorite.set(movieTask.checkIsFavorite(movie));
         fetchReviews();
         fetchTrailers();
-    }
-
-    public LiveData<List<Review>> getReviews() {
-        return reviews;
-    }
-
-    public LiveData<List<Trailer>> getTrailers() {
-        return trailers;
     }
 
     public void onFavoritesClicked(View v) {
@@ -58,18 +50,17 @@ public class MovieDetailsViewModel extends ViewModel {
     }
 
     private void fetchTrailers() {
-     //   if (movie.video)
-            movieTask.fetchTrailers(movie.id, getTrailerCallback());
+        movieTask.fetchTrailers(movie.id, getTrailerCallback());
     }
 
     @Singleton
     private MovieTask.MovieTaskCallback<Review> getReviewCallback() {
         return new MovieTask.MovieTaskCallback<Review>() {
 
-
             @Override
             public void onSuccess(ServerResponse<Review> serverResponse) {
-                reviews.setValue(serverResponse.items);
+                reviews.set(serverResponse.items);
+                reviews.notifyChange();
                 isReviewAvailable.set(serverResponse.items != null && !serverResponse.items.isEmpty());
             }
 
@@ -87,10 +78,12 @@ public class MovieDetailsViewModel extends ViewModel {
 
     @Singleton
     private MovieTask.MovieTaskCallback getTrailerCallback() {
-        return new MovieTask.MovieTaskCallback() {
+        return new MovieTask.MovieTaskCallback<Trailer>() {
+
             @Override
-            public void onSuccess(ServerResponse serverResponse) {
-                trailers.setValue(serverResponse.items);
+            public void onSuccess(ServerResponse<Trailer> serverResponse) {
+                trailers.set(serverResponse.items);
+                trailers.notifyChange();
                 isTrailerAvailable.set(serverResponse.items != null && !serverResponse.items.isEmpty());
             }
 

@@ -17,8 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.proximity.kinoshka.db.MovieDao;
-import de.proximity.kinoshka.db.MoviesDb;
 import de.proximity.kinoshka.entity.Movie;
 
 import static org.hamcrest.Matchers.is;

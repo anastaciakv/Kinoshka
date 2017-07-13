@@ -1,7 +1,9 @@
 package de.proximity.kinoshka.entity;
 
 
-public class Trailer {
+import de.proximity.kinoshka.binding.BindListItem;
+
+public class Trailer implements BindListItem {
     public String id;
     //    public String iso6391;
     //    public String iso31661;

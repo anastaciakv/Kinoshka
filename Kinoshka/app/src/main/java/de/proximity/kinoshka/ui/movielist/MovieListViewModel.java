@@ -1,10 +1,8 @@
 package de.proximity.kinoshka.ui.movielist;
 
-
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.databinding.BaseObservable;
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +12,11 @@ import javax.inject.Inject;
 import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.data.remote.ServerResponse;
 import de.proximity.kinoshka.entity.Movie;
+import timber.log.Timber;
 
-public class MovieListViewModel extends ViewModel {
+public class MovieListViewModel extends BaseObservable {
     private final MovieTask movieTask;
-    MutableLiveData<List<Movie>> movies = new MutableLiveData<>();
+    public ObservableField<List<Movie>> movies = new ObservableField<>();
     private MovieTask.MovieTaskCallback<Movie> movieTaskCallback;
     public ObservableBoolean isLoading = new ObservableBoolean(false);
     public ObservableBoolean showList = new ObservableBoolean(true);
@@ -35,6 +34,7 @@ public class MovieListViewModel extends ViewModel {
     void fetchMovies() {
         isLoading.set(true);
         movieTask.fetchMovies(currentSortMode, currentPage, getMovieTaskCallback());
+        Timber.d("movieTask.fetchMovies");
     }
 
     public MovieTask.MovieTaskCallback getMovieTaskCallback() {
@@ -43,10 +43,11 @@ public class MovieListViewModel extends ViewModel {
                 @Override
                 public void onSuccess(ServerResponse<Movie> serverResponse) {
                     isLoading.set(false);
-                    List<Movie> oldList = movies.getValue();
-                    if (oldList == null) oldList = new ArrayList<>();
-                    oldList.addAll(serverResponse.items);
-                    movies.setValue(oldList);
+                    List<Movie> prev = movies.get();
+                    if (prev == null) prev = new ArrayList<>();
+                    prev.addAll(serverResponse.items);
+                    movies.set(prev);
+                    movies.notifyChange();
                     totalPages = serverResponse.totalPages;
                     showList.set(true);
                 }
@@ -54,7 +55,7 @@ public class MovieListViewModel extends ViewModel {
                 @Override
                 public void onError() {
                     isLoading.set(false);
-                    showList.set(movies.getValue() != null && !movies.getValue().isEmpty());
+                    showList.set(movies.get() != null && !movies.get().isEmpty());
                 }
             };
         }
@@ -75,12 +76,8 @@ public class MovieListViewModel extends ViewModel {
     private void changeSortModeAndUpdate(String sortMode) {
         currentSortMode = sortMode;
         currentPage = 1;
-        movies.setValue(new ArrayList<>());
+        movies.set(new ArrayList<>());
         fetchMovies();
-    }
-
-    public LiveData<List<Movie>> getMovies() {
-        return movies;
     }
 
 

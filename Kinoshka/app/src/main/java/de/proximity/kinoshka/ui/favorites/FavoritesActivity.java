@@ -1,8 +1,6 @@
 package de.proximity.kinoshka.ui.favorites;
 
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -23,15 +21,13 @@ import de.proximity.kinoshka.utils.Helper;
 public class FavoritesActivity extends AppCompatActivity implements Injectable, LoaderManager.LoaderCallbacks<Cursor> {
     private static final int MOVIE_LOADER_ID = 1991;
     @Inject
-    ViewModelProvider.Factory viewModelFactory;
-    private FavoritesViewModel viewModel;
+    FavoritesViewModel viewModel;
     ActivityFavoritesBinding binding;
     private FavMovieGridAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(FavoritesViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_favorites);
         initGrid();
         binding.setViewmodel(viewModel);

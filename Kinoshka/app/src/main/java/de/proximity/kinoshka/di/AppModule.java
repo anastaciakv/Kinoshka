@@ -1,7 +1,6 @@
 package de.proximity.kinoshka.di;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 import android.content.ContentResolver;
 
 import com.google.gson.FieldNamingPolicy;
@@ -18,8 +17,9 @@ import de.proximity.kinoshka.BuildConfig;
 import de.proximity.kinoshka.data.MovieTask;
 import de.proximity.kinoshka.data.remote.ApiClient;
 import de.proximity.kinoshka.data.remote.MovieTaskImpl;
-import de.proximity.kinoshka.db.MovieDao;
-import de.proximity.kinoshka.db.MoviesDb;
+import de.proximity.kinoshka.ui.favorites.FavoritesViewModel;
+import de.proximity.kinoshka.ui.moviedetails.MovieDetailsViewModel;
+import de.proximity.kinoshka.ui.movielist.MovieListViewModel;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,7 +27,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@Module(includes = ViewModelModule.class)
+@Module
 public class AppModule {
 
     @Singleton
@@ -76,15 +76,10 @@ public class AppModule {
 
     @Singleton
     @Provides
-    public MovieTask providesMovieTask(ApiClient apiClient, MovieDao movieDao, ContentResolver contentResolver) {
-        return new MovieTaskImpl(apiClient, movieDao, contentResolver);
+    public MovieTask providesMovieTask(ApiClient apiClient, ContentResolver contentResolver) {
+        return new MovieTaskImpl(apiClient, contentResolver);
     }
 
-    @Singleton
-    @Provides
-    MoviesDb provideDb(Application app) {
-        return Room.databaseBuilder(app, MoviesDb.class, "movies.db").allowMainThreadQueries().build();
-    }
 
     @Provides
     ContentResolver provideContentResolver(Application application) {
@@ -93,7 +88,19 @@ public class AppModule {
 
     @Singleton
     @Provides
-    MovieDao provideMovieDao(MoviesDb db) {
-        return db.movieDao();
+    FavoritesViewModel provideFavoritesViewModel(MovieTask task) {
+        return new FavoritesViewModel(task);
+    }
+
+    @Singleton
+    @Provides
+    MovieListViewModel provideMovieListViewModel(MovieTask task) {
+        return new MovieListViewModel(task);
+    }
+
+    @Singleton
+    @Provides
+    MovieDetailsViewModel provideMovieDetailsViewModel(MovieTask task) {
+        return new MovieDetailsViewModel(task);
     }
 }

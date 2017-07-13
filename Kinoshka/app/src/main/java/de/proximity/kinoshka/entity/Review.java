@@ -1,7 +1,9 @@
 package de.proximity.kinoshka.entity;
 
 
-public class Review {
+import de.proximity.kinoshka.binding.BindListItem;
+
+public class Review implements BindListItem {
     public String id;
     public String author;
     public String content;

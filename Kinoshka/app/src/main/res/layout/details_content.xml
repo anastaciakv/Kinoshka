@@ -19,6 +19,7 @@
     </data>
 
     <merge>
+
         <TextView
             visibleGone="@{viewModel.isReviewAvailable}"
             android:layout_width="match_parent"
@@ -40,6 +41,7 @@
             visibleGone="@{viewModel.isReviewAvailable}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:items="@{viewModel.reviews}"
             app:layoutManager="LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/review_item" />
@@ -65,6 +67,7 @@
             visibleGone="@{viewModel.isTrailerAvailable}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:items="@{viewModel.trailers}"
             app:layoutManager="LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/trailer_item" />

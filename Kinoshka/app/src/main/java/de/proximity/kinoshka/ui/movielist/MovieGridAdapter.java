@@ -12,27 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.proximity.kinoshka.R;
+import de.proximity.kinoshka.binding.BindListAdapter;
 import de.proximity.kinoshka.databinding.MovieItemBinding;
 import de.proximity.kinoshka.entity.Movie;
+import timber.log.Timber;
 
-public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> {
+public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.MovieViewHolder> implements BindListAdapter<Movie> {
+
+    @Override
+    public void replaceItems(List<Movie> items) {
+        if (items == null) return;
+        Timber.d("replaceItems, count " + items.size());
+        movies.clear();
+        movies.addAll(items);
+        notifyDataSetChanged();
+    }
 
     public interface MovieClickCallback {
         void onClick(Movie movie, View view);
     }
 
     final private MovieClickCallback callback;
-    List<Movie> movies;
+    List<Movie> movies = new ArrayList<>();
 
     public MovieGridAdapter(MovieClickCallback callback) {
         this.callback = callback;
         movies = new ArrayList<>();
-    }
-
-    public void update(List<Movie> movieList) {
-        movies.clear();
-        movies.addAll(movieList);
-        notifyDataSetChanged();
     }
 
     @Override

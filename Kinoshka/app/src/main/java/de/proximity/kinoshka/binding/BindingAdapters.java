@@ -19,11 +19,14 @@ package de.proximity.kinoshka.binding;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.databinding.BindingAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import de.proximity.kinoshka.R;
 
@@ -106,5 +109,13 @@ public class BindingAdapters {
     @BindingAdapter("favorite")
     public static void setFavoriteState(ImageView view, boolean isFavorite) {
         view.setImageResource(isFavorite ? R.drawable.ic_bookmark_selected : R.drawable.ic_bookmark_border);
+    }
+
+    @BindingAdapter("app:items")
+    public static void setItems(RecyclerView listView, List<? extends BindListItem> items) {
+        BindListAdapter adapter = (BindListAdapter) listView.getAdapter();
+        if (adapter != null) {
+            adapter.replaceItems(items);
+        }
     }
 }

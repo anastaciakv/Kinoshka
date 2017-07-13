@@ -11,19 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.proximity.kinoshka.R;
+import de.proximity.kinoshka.binding.BindListAdapter;
 import de.proximity.kinoshka.databinding.ReviewItemBinding;
 import de.proximity.kinoshka.entity.Review;
 
-class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
-
-
+class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> implements BindListAdapter<Review> {
     private List<Review> reviews = new ArrayList<>();
-
-    public void update(List<Review> reviewList) {
-        reviews.clear();
-        reviews.addAll(reviewList);
-        notifyDataSetChanged();
-    }
 
     @Override
     public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,6 +35,14 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>
     @Override
     public int getItemCount() {
         return reviews.size();
+    }
+
+    @Override
+    public void replaceItems(List<Review> items) {
+        if (items == null) return;
+        reviews.clear();
+        reviews.addAll(items);
+        notifyDataSetChanged();
     }
 
     public class ReviewViewHolder extends RecyclerView.ViewHolder {

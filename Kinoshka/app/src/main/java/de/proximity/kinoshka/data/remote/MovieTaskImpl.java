@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import de.proximity.kinoshka.data.MovieTask;
-import de.proximity.kinoshka.db.MovieDao;
 import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.entity.Review;
 import de.proximity.kinoshka.entity.Trailer;
@@ -25,13 +24,11 @@ import static dagger.internal.Preconditions.checkNotNull;
 @Singleton
 public class MovieTaskImpl implements MovieTask {
     private final ApiClient apiClient;
-    private final MovieDao movieDao;
     private final ContentResolver contentResolver;
 
     @Inject
-    public MovieTaskImpl(ApiClient apiClient, MovieDao movieDao, ContentResolver contentResolver) {
+    public MovieTaskImpl(ApiClient apiClient, ContentResolver contentResolver) {
         this.apiClient = apiClient;
-        this.movieDao = movieDao;
         this.contentResolver = contentResolver;
     }
 
@@ -72,7 +69,6 @@ public class MovieTaskImpl implements MovieTask {
             cursor.close();
         }
         return isFavorite;
-//        return movieDao.selectMovieById(movie.id) != null;
     }
 
     @Override

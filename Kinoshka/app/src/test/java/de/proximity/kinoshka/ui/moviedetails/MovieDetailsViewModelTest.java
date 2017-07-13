@@ -1,9 +1,6 @@
 package de.proximity.kinoshka.ui.moviedetails;
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule;
-
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -22,16 +19,13 @@ import de.proximity.kinoshka.entity.Trailer;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class MovieDetailsViewModelTest {
     private static final int MOVIE_ID = 23;
-    @Rule
-    public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
     @Captor
     ArgumentCaptor<MovieTask.MovieTaskCallback> movieTaskCallbackArgumentCaptor;
 
@@ -109,23 +103,14 @@ public class MovieDetailsViewModelTest {
     }
 
     @Test
-    public void given_hasVideos_when_setMovie_then_fetchVideos() {
-        movie.video = true;
+    public void when_setMovie_then_fetchVideos() {
         viewModel.setMovie(movie);
         verify(movieTask).fetchTrailers(anyLong(), any(MovieTask.MovieTaskCallback.class));
     }
 
     @Test
-    public void given_hasNoVideos_when_setMovie_then_doNotFetchVideos() {
-        movie.video = false;
-        viewModel.setMovie(movie);
-        verify(movieTask, times(0)).fetchTrailers(anyLong(), any(MovieTask.MovieTaskCallback.class));
-    }
-
-    @Test
     public void when_fetchTrailersSuccess_then_showTrailers() throws Exception {
         viewModel.isTrailerAvailable.set(false);
-        movie.video = true;
         viewModel.setMovie(movie);
         verify(movieTask).fetchTrailers(anyLong(), movieTaskCallbackArgumentCaptor.capture());
         List<Trailer> trailers = new ArrayList<>();
@@ -134,13 +119,12 @@ public class MovieDetailsViewModelTest {
         response.items = trailers;
         movieTaskCallbackArgumentCaptor.getValue().onSuccess(response);
         assertTrue(viewModel.isTrailerAvailable.get());
-        assertEquals(trailers, viewModel.getTrailers().getValue());
+        assertEquals(trailers, viewModel.trailers.get());
     }
 
     @Test
     public void when_fetchTrailersSuccessButNoTrailers_then_hideTrailers() throws Exception {
         viewModel.isTrailerAvailable.set(false);
-        movie.video = true;
         viewModel.setMovie(movie);
         verify(movieTask).fetchTrailers(anyLong(), movieTaskCallbackArgumentCaptor.capture());
         List<Trailer> trailers = new ArrayList<>();
@@ -153,7 +137,6 @@ public class MovieDetailsViewModelTest {
     @Test
     public void when_fetchTrailersSuccessButTrailersNull_then_hideTrailers() throws Exception {
         viewModel.isTrailerAvailable.set(false);
-        movie.video = true;
         viewModel.setMovie(movie);
         verify(movieTask).fetchTrailers(anyLong(), movieTaskCallbackArgumentCaptor.capture());
 
@@ -166,7 +149,6 @@ public class MovieDetailsViewModelTest {
     @Test
     public void when_fetchTrailersError_then_hideTrailers() throws Exception {
         viewModel.isTrailerAvailable.set(true);
-        movie.video = true;
         viewModel.setMovie(movie);
         verify(movieTask).fetchTrailers(anyLong(), movieTaskCallbackArgumentCaptor.capture());
 

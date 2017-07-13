@@ -14,17 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.proximity.kinoshka.R;
+import de.proximity.kinoshka.binding.BindListAdapter;
 import de.proximity.kinoshka.databinding.TrailerItemBinding;
 import de.proximity.kinoshka.entity.Trailer;
 
-class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder> {
-    private List<Trailer> reviews = new ArrayList<>();
+class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder> implements BindListAdapter<Trailer> {
+    private List<Trailer> trailers = new ArrayList<>();
 
-    public void update(List<Trailer> trailerList) {
-        reviews.clear();
-        reviews.addAll(trailerList);
-        notifyDataSetChanged();
-    }
 
     @Override
     public TrailerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,13 +52,21 @@ class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHold
 
     @Override
     public void onBindViewHolder(TrailerViewHolder holder, int position) {
-        holder.bind(reviews.get(position));
+        holder.bind(trailers.get(position));
         holder.binding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return reviews.size();
+        return trailers.size();
+    }
+
+    @Override
+    public void replaceItems(List<Trailer> items) {
+        if (items == null) return;
+        trailers.clear();
+        trailers.addAll(items);
+        notifyDataSetChanged();
     }
 
     public class TrailerViewHolder extends RecyclerView.ViewHolder {

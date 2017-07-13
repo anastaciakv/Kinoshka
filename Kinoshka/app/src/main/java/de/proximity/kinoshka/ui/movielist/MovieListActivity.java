@@ -1,10 +1,6 @@
 package de.proximity.kinoshka.ui.movielist;
 
 
-import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.LifecycleRegistryOwner;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,11 +18,9 @@ import de.proximity.kinoshka.di.Injectable;
 import de.proximity.kinoshka.ui.NavigationController;
 import de.proximity.kinoshka.utils.Helper;
 
-public class MovieListActivity extends AppCompatActivity implements Injectable, LifecycleRegistryOwner {
+public class MovieListActivity extends AppCompatActivity implements Injectable {
     @Inject
-    ViewModelProvider.Factory viewModelFactory;
-    private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
-    private MovieListViewModel viewModel;
+    MovieListViewModel viewModel;
     ActivityMovieListBinding binding;
     MovieGridAdapter adapter;
 
@@ -34,12 +28,9 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieListViewModel.class);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_list);
         binding.setViewmodel(viewModel);
         initGrid();
-        viewModel.getMovies().observe(this, movies -> adapter.update(movies));
     }
 
     private void initGrid() {
@@ -85,10 +76,5 @@ public class MovieListActivity extends AppCompatActivity implements Injectable, 
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return lifecycleRegistry;
     }
 }

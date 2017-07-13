@@ -1,13 +1,12 @@
 package de.proximity.kinoshka.entity;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 
 import org.parceler.Parcel;
+
+import de.proximity.kinoshka.binding.BindListItem;
 
 import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_BACKDROP_PATH;
 import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_ID;
@@ -17,9 +16,8 @@ import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_POSTER_PATH;
 import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_RELEASE_DATE;
 import static de.proximity.kinoshka.entity.Movie.Table.COLUMN_VOTE_AVERAGE;
 
-@Entity(tableName = Movie.Table.TABLE_NAME)
 @Parcel
-public class Movie {
+public class Movie implements BindListItem {
     public interface Table {
         String TABLE_NAME = "movies";
         String COLUMN_ID = BaseColumns._ID;
@@ -34,8 +32,6 @@ public class Movie {
     public static final String ITEM_KEY = "MOVIE_ITEM";
     public static final String TRANSITION_NAME_KEY = "TRANSITION_NAME";
 
-    @PrimaryKey
-    @ColumnInfo(index = true, name = COLUMN_ID)
     public long id;
     public int voteCount;
     public boolean video;
@@ -44,7 +40,6 @@ public class Movie {
     public double popularity;
     public String posterPath;
     public String originalLanguage;
-    // @ColumnInfo(name = COLUMN_ORIGINAL_TITLE)
     public String originalTitle;
     public String backdropPath;
     public boolean adult;
