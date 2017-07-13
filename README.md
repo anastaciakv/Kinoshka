@@ -12,4 +12,4 @@ In the project add your key to the **gradle.properties** like this:
 
 `API_KEY=your_api_key_value`
 
-The project is implemented using MVVM and [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) with Activities.
+The project is implemented using MVVM and DataBinding with Activities.
