@@ -67,11 +67,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements Injectabl
         binding.setMovie(movie);
         binding.setViewModel(viewModel);
         //reviews list
-        binding.extraInfo.rvReviewList.setHasFixedSize(true);
-        binding.extraInfo.rvReviewList.setAdapter(reviewAdapter);
+        binding.rvReviewList.setHasFixedSize(true);
+        binding.rvReviewList.setAdapter(reviewAdapter);
         //trailers list
-        binding.extraInfo.rvTrailerList.setHasFixedSize(true);
-        binding.extraInfo.rvTrailerList.setAdapter(trailerAdapter);
+        binding.rvTrailerList.setHasFixedSize(true);
+        binding.rvTrailerList.setAdapter(trailerAdapter);
     }
 
     @Override

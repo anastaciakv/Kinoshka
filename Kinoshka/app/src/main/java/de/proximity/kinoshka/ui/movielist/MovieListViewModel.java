@@ -76,7 +76,7 @@ public class MovieListViewModel extends BaseObservable {
     private void changeSortModeAndUpdate(String sortMode) {
         currentSortMode = sortMode;
         currentPage = 1;
-        movies.set(new ArrayList<>());
+        movies.set(new ArrayList<Movie>());
         fetchMovies();
     }
 

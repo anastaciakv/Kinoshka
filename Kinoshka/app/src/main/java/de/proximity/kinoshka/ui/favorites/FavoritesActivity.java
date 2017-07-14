@@ -10,12 +10,14 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.view.View;
 
 import javax.inject.Inject;
 
 import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.databinding.ActivityFavoritesBinding;
 import de.proximity.kinoshka.di.Injectable;
+import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.ui.NavigationController;
 import de.proximity.kinoshka.utils.Helper;
 
@@ -39,8 +41,12 @@ public class FavoritesActivity extends AppCompatActivity implements Injectable, 
         final GridLayoutManager layoutManager = new GridLayoutManager(this, Helper.getNumberOfColumns(this));
         binding.rvMovieList.setLayoutManager(layoutManager);
         binding.rvMovieList.setHasFixedSize(true);
-        adapter = new FavMovieGridAdapter(
-                (movie, view) -> NavigationController.navigateToMovieDetailsFromFavorites(FavoritesActivity.this, movie, view));
+        adapter = new FavMovieGridAdapter(new FavMovieGridAdapter.MovieClickCallback() {
+            @Override
+            public void onClick(Movie movie, View view) {
+                NavigationController.navigateToMovieDetailsFromFavorites(FavoritesActivity.this, movie, view);
+            }
+        });
         binding.rvMovieList.setAdapter(adapter);
     }
 

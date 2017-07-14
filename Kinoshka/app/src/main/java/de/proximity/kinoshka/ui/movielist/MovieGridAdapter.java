@@ -42,12 +42,15 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MovieItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+        final MovieItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.movie_item, parent, false);
-        binding.getRoot().setOnClickListener(v -> {
-            Movie movie = binding.getMovie();
-            if (movie != null && callback != null) {
-                callback.onClick(movie, binding.ivPoster);
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Movie movie = binding.getMovie();
+                if (movie != null && callback != null) {
+                    callback.onClick(movie, binding.ivPoster);
+                }
             }
         });
         return new MovieViewHolder(binding);

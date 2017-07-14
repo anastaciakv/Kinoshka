@@ -49,7 +49,7 @@ public class BindingAdapters {
         animateVisibility(view, visible, View.INVISIBLE);
     }
 
-    private static void animateVisibility(View view, boolean visible, int hideVisibility) {
+    private static void animateVisibility(final View view, boolean visible, final int hideVisibility) {
         if (view.getTag() == null) {
             view.setTag(true);
             view.setVisibility(visible ? View.VISIBLE : hideVisibility);
@@ -89,7 +89,7 @@ public class BindingAdapters {
         loadImage(imageView, url, callback);
     }
 
-    private static void loadImage(ImageView imageView, String url, ImageReadyCallback callback) {
+    private static void loadImage(ImageView imageView, String url, final ImageReadyCallback callback) {
         Picasso.with(imageView.getContext())
                 .load(url).noFade()
                 .error(R.drawable.ic_image)

@@ -72,7 +72,7 @@ public class MovieTaskImpl implements MovieTask {
     }
 
     @Override
-    public void fetchReviews(long movieId, @NonNull MovieTaskCallback callback) {
+    public void fetchReviews(long movieId, @NonNull final MovieTaskCallback callback) {
         checkNotNull(callback);
         Call<ServerResponse<Review>> call = apiClient.getMovieReviews(movieId);
         call.enqueue(new Callback<ServerResponse<Review>>() {
@@ -106,7 +106,7 @@ public class MovieTaskImpl implements MovieTask {
     }
 
     @Override
-    public void fetchTrailers(long movieId, @NonNull MovieTaskCallback callback) {
+    public void fetchTrailers(long movieId, @NonNull final MovieTaskCallback callback) {
         checkNotNull(callback);
         Call<ServerResponse<Trailer>> call = apiClient.getMovieTrailers(movieId);
         call.enqueue(new Callback<ServerResponse<Trailer>>() {

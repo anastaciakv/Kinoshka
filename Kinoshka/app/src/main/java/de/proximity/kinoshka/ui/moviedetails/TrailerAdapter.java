@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -23,13 +24,21 @@ class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHold
 
 
     @Override
-    public TrailerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TrailerItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+    public TrailerViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+        final TrailerItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.trailer_item, parent, false);
-        binding.tvTitle.setOnClickListener(view -> {
-            startYouTube(binding.getTrailer().key, parent.getContext());
+        binding.tvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startYouTube(binding.getTrailer().key, parent.getContext());
+            }
         });
-        binding.btnShare.setOnClickListener(view -> shareTrailer(binding.getTrailer().key, parent.getContext()));
+        binding.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareTrailer(binding.getTrailer().key, parent.getContext());
+            }
+        });
         return new TrailerViewHolder(binding);
     }
 

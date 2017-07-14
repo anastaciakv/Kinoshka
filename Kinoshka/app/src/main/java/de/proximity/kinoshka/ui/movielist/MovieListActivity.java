@@ -9,12 +9,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import javax.inject.Inject;
 
 import de.proximity.kinoshka.R;
 import de.proximity.kinoshka.databinding.ActivityMovieListBinding;
 import de.proximity.kinoshka.di.Injectable;
+import de.proximity.kinoshka.entity.Movie;
 import de.proximity.kinoshka.ui.NavigationController;
 import de.proximity.kinoshka.utils.Helper;
 
@@ -49,8 +51,12 @@ public class MovieListActivity extends AppCompatActivity implements Injectable {
                 viewModel.onListScrolled(visibleItemCount, totalItemCount, firstVisibleItemPosition);
             }
         });
-        adapter = new MovieGridAdapter(
-                (movie, view) -> NavigationController.navigateToMovieDetails(MovieListActivity.this, movie, view));
+        adapter = new MovieGridAdapter(new MovieGridAdapter.MovieClickCallback() {
+            @Override
+            public void onClick(Movie movie, View view) {
+                NavigationController.navigateToMovieDetails(MovieListActivity.this, movie, view);
+            }
+        });
         binding.rvMovieList.setAdapter(adapter);
     }
 
