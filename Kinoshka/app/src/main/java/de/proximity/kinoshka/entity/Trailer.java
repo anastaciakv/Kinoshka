@@ -12,4 +12,8 @@ public class Trailer implements BindListItem {
     public String site;
     public int size;
     public String type;
+
+    public String getYoutubeThumbnailUrl() {
+        return "http://img.youtube.com/vi/" + key + "/0.jpg";
+    }
 }

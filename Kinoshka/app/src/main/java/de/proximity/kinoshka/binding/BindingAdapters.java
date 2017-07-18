@@ -108,10 +108,10 @@ public class BindingAdapters {
 
     @BindingAdapter("favorite")
     public static void setFavoriteState(ImageView view, boolean isFavorite) {
-        view.setImageResource(isFavorite ? R.drawable.ic_bookmark_selected : R.drawable.ic_bookmark_border);
+        view.setImageResource(isFavorite ? R.drawable.ic_favorite : R.drawable.ic_favorite_border);
     }
 
-    @BindingAdapter("app:items")
+    @BindingAdapter("items")
     public static void setItems(RecyclerView listView, List<? extends BindListItem> items) {
         BindListAdapter adapter = (BindListAdapter) listView.getAdapter();
         if (adapter != null) {

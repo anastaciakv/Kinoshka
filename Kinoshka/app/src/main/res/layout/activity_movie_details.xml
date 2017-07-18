@@ -71,13 +71,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/text_margin">
+                android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin">
+                    android:layout_margin="@dimen/text_margin">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -123,67 +122,62 @@
                 </android.support.v7.widget.CardView>
 
                 <TextView
-                    visibleGone="@{viewModel.isReviewAvailable}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:paddingTop="@dimen/activity_horizontal_margin"
-                    android:text="@string/lbl_reviews"
-                    android:textSize="@dimen/rating_text_size"
-                    android:textStyle="bold" />
-
-                <View
-                    visibleGone="@{viewModel.isReviewAvailable}"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorPrimaryDark" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvReviewList"
-                    visibleGone="@{viewModel.isReviewAvailable}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:items="@{viewModel.reviews}"
-                    app:layoutManager="LinearLayoutManager"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    tools:listitem="@layout/review_item" />
-
-                <TextView
-                    visibleGone="@{viewModel.isTrailerAvailable}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_marginStart="@dimen/text_margin"
                     android:text="@string/lbl_trailers"
                     android:textSize="@dimen/rating_text_size"
-                    android:textStyle="bold" />
-
-                <View
-                    visibleGone="@{viewModel.isTrailerAvailable}"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorPrimaryDark" />
+                    android:textStyle="bold"
+                    app:visibleGone="@{viewModel.isTrailerAvailable}" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvTrailerList"
-                    visibleGone="@{viewModel.isTrailerAvailable}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/trailer_item_margin"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:orientation="horizontal"
                     app:items="@{viewModel.trailers}"
                     app:layoutManager="LinearLayoutManager"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:visibleGone="@{viewModel.isTrailerAvailable}"
                     tools:listitem="@layout/trailer_item" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:text="@string/lbl_reviews"
+                    android:textSize="@dimen/rating_text_size"
+                    android:textStyle="bold"
+                    app:visibleGone="@{viewModel.isReviewAvailable}" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvReviewList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    app:items="@{viewModel.reviews}"
+                    app:layoutManager="LinearLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:visibleGone="@{viewModel.isReviewAvailable}"
+                    tools:listitem="@layout/review_item" />
+
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
-            favorite="@{viewModel.isFavorite}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             android:onClick="@{viewModel::onFavoritesClicked}"
+            app:favorite="@{viewModel.isFavorite}"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end" />
 

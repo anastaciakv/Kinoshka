@@ -27,7 +27,7 @@ class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHold
     public TrailerViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         final TrailerItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.trailer_item, parent, false);
-        binding.tvTitle.setOnClickListener(new View.OnClickListener() {
+        binding.btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startYouTube(binding.getTrailer().key, parent.getContext());

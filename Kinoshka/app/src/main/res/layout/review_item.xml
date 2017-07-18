@@ -51,6 +51,5 @@
             android:text="@{review.content}"
             android:textSize="@dimen/description_text_size"
             tools:text="I think it was a wonderful movie!  I think it was a wonderful movie! I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!I think it was a wonderful movie!" />
-
     </RelativeLayout>
 </layout>

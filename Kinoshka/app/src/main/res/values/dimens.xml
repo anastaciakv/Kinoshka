@@ -3,11 +3,16 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_horizontal_margin_half">8dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="rating_text_size">20sp</dimen>
+    <dimen name="rating_text_size">22sp</dimen>
+    <dimen name="release_text_size">20sp</dimen>
     <dimen name="description_text_size">16sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="trailer_padding">8dp</dimen>
+    <dimen name="trailer_icon_size_share">48dp</dimen>
+    <dimen name="trailer_icon_size_play">70dp</dimen>
+    <dimen name="trailer_preview_width">160dp</dimen>
+    <dimen name="trailer_item_margin">2dp</dimen>
     <!---->
 
 </resources>

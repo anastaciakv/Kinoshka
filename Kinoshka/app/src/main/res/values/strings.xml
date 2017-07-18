@@ -25,5 +25,6 @@
     <string name="lbl_trailers">Trailers</string>
     <string name="share_chooser_dialog">To: </string>
     <string name="msg_share_trailer">Check out this trailer:</string>
+    <string name="cd_play_trailer">Play trailer</string>
     <!---->
 </resources>
